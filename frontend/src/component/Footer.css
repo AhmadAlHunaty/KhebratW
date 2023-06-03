@@ -1,0 +1,28 @@
+.img-footer {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center;
+    justify-items: center; */
+    position: relative;
+
+    margin-left: 3%;
+    margin-right: 3%;
+    /* padding-top: 2%; */
+    width: 200px;
+    /* padding-bottom: 3%; */
+    height: 200px;
+
+}
+
+.vl {
+    border-left: 2px solid rgb(134, 150, 254);
+    margin-right: 50px;
+    position: relative;
+    height: 200px;
+    margin-left: 50px;
+}
+
+.Co {
+    margin-top: -84px;
+
+}
