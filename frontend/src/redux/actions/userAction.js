@@ -18,7 +18,10 @@ import {
     USER_SIGNIN_SUCCESS,
     USER_SIGNUP_FAIL,
     USER_SIGNUP_REQUEST,
-    USER_SIGNUP_SUCCESS
+    USER_SIGNUP_SUCCESS,
+    USER_UPDATE_FAIL,
+    USER_UPDATE_REQUEST,
+    USER_UPDATE_SUCCESS
 } from '../constants/userConstant';
 
 
@@ -56,6 +59,26 @@ export const userSignUpAction = (user) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: USER_SIGNUP_FAIL,
+            payload: error.response.data.error
+        });
+        toast.error(error.response.data.error);
+    }
+}
+
+// user update action
+export const userUpdateAction = (user) => async (dispatch) => {
+    dispatch({ type: USER_UPDATE_REQUEST });
+    try {
+        const { data } = await axios.post("/api/update", user);
+
+        dispatch({
+            type: USER_UPDATE_SUCCESS,
+            payload: data
+        });
+        toast.success("Register Successfully!");
+    } catch (error) {
+        dispatch({
+            type: USER_UPDATE_FAIL,
             payload: error.response.data.error
         });
         toast.error(error.response.data.error);
@@ -125,6 +148,7 @@ export const userApplyJobAction = (job) => async (dispatch) => {
     dispatch({ type: USER_APPLY_JOB_REQUEST });
     try {
         const { data } = await axios.post("/api/user/jobhistory", job);
+        debugger
 
         dispatch({
             type: USER_APPLY_JOB_SUCCESS,

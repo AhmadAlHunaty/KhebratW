@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import { CssBaseline, ThemeProvider } from '@mui/material';
@@ -9,10 +9,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ProSidebarProvider } from 'react-pro-sidebar';
 import LogIn from './pages/LogIn';
 import UserDashboard from './pages/user/UserDashboard';
-import UserRoute from './component/UserRoute';
+import EmployerRoute from './component/EmployerRoute';
 import AdminRoute from './component/AdminRoute';
+import JobSeekerRoute from './component/JobSeekerRoute';
 import Layout from './pages/global/Layout';
 import UserJobsHistory from './pages/user/UserJobsHistory';
+import JobSeekerRequests from './pages/user/JobSeekerRequests';
 import UserInfoDashboard from './pages/user/UserInfoDashboard';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import SingleJob from './pages/SingleJob';
@@ -29,10 +31,12 @@ import { createTheme } from '@mui/material/styles';
 import { themeColors } from './theme'
 import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
+import { USER_ROLES } from './helper/enums';
 
 //HOC
 const UserDashboardHOC = Layout(UserDashboard);
 const UserJobsHistoryHOC = Layout(UserJobsHistory);
+const JobSeekerJobsHistoryHOC = Layout(JobSeekerRequests);
 const UserInfoDashboardHOC = Layout(UserInfoDashboard);
 const AdminDashboardHOC = Layout(AdminDashboard);
 const DashUsersHOC = Layout(DashUsers);
@@ -49,6 +53,7 @@ const DashSearchHOC = Layout(UserJobSearch);
 const App = () => {
     const { mode } = useSelector((state) => state.mode);
     const theme = useMemo(() => createTheme(themeColors(mode)), [mode]);
+    const { userInfo } = useSelector((state) => state.signIn);
 
     return (
         <>
@@ -60,7 +65,7 @@ const App = () => {
                         <Routes>
                             <Route path='/' element={<Home />} />
                             {/* <Route path='/search/location/:location' element={<Home />} /> */}
-                            <Route path='/user/jobList/:keyword' element={<UserRoute><DashSearchHOC /></UserRoute>} />
+                            {/* <Route path='/job-seeker/jobList/:keyword' element={<EmployerRoute><DashSearchHOC /></EmployerRoute>} /> */}
                             <Route path='/login' element={<LogIn />} />
                             <Route path='/register' element={<Register />} />
                             <Route path='/job/:id' element={<SingleJob />} />
@@ -70,11 +75,20 @@ const App = () => {
                             <Route path='/admin/category' element={<AdminRoute><DashCategoryHOC /></AdminRoute>} />
                             <Route path='/admin/job/create' element={<AdminRoute><DashCreateJobHOC /></AdminRoute>} />
                             <Route path='/admin/category/create' element={<AdminRoute><DashCreateCategoryHOC /></AdminRoute>} />
-                            <Route path='/user/dashboard' element={<UserRoute>< UserDashboardHOC /></UserRoute>} />
-                            <Route path='/user/jobs' element={<UserRoute>< UserJobsHistoryHOC /></UserRoute>} />
-                            <Route path='/user/jobsList' element={<UserRoute>< DashSearchHOC /></UserRoute>} />
-                            <Route path='/user/jobsList/:location' element={<UserRoute><DashSearchHOC /></UserRoute>} />
-                            <Route path='/user/info' element={<UserRoute>< UserInfoDashboardHOC /></UserRoute>} />
+
+                            <Route path='/job-seeker/jobs' element={<JobSeekerRoute><DashJobsHOC /></JobSeekerRoute>} />
+                            {/* <Route path='/job-seeker/jobs' element={<JobSeekerRoute><DashJobsHOC /></JobSeekerRoute>} /> */}
+                            <Route path='/job-seeker/job/create' element={<JobSeekerRoute><DashCreateJobHOC /></JobSeekerRoute>} />
+                            <Route path='/job-seeker/edit/job/:id' element={<JobSeekerRoute><DashCreateJobHOC /></JobSeekerRoute>} />
+                            <Route path='/job-seeker/job-requests' element={<JobSeekerRoute>< JobSeekerJobsHistoryHOC /></JobSeekerRoute>} />
+                            {/* <Route path='/job-seeker/jobsList/:location' element={<JobSeekerRoute><DashSearchHOC /></JobSeekerRoute>} /> */}
+
+                            <Route path='/user/dashboard' element={(userInfo?.role === USER_ROLES?.JOB_SEEKER || userInfo?.role === USER_ROLES?.EMPLOYER) ? < UserDashboardHOC /> : <Navigate to='/' />} />
+                            <Route path='/user/jobs' element={<EmployerRoute>< UserJobsHistoryHOC /></EmployerRoute>} />
+                            <Route path='/user/jobsList' element={<EmployerRoute>< DashSearchHOC /></EmployerRoute>} />
+                            <Route path='/user/jobsList/:location' element={<EmployerRoute><DashSearchHOC /></EmployerRoute>} />
+                            <Route path='/employer/jobList/:keyword' element={<EmployerRoute><DashSearchHOC /></EmployerRoute>} />
+                            <Route path='/user/info' element={< UserInfoDashboardHOC />} />
                             <Route path='*' element={<NotFound />} />
                         </Routes>
                     </BrowserRouter>

@@ -78,7 +78,7 @@ const userSchema = new mongoose.Schema({
     jobsHistory: [jobsHistorySchema],
 
     role: {
-        type: Number,
+        type: String,
         default: 0
     }
 

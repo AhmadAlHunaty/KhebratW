@@ -15,6 +15,7 @@ import { userLogoutAction, userProfileAction } from '../../redux/actions/userAct
 import { useNavigate } from 'react-router-dom';
 import LoginIcon from '@mui/icons-material/Login';
 import ReactDOM from 'react-dom';
+import { USER_ROLES } from '../../helper/enums';
 // import { Dialog } from 'primereact/dialog';
 // import { InputText } from 'primereact/inputtext';
 import Input from '@mui/material/Input';
@@ -85,10 +86,11 @@ const SidebarAdm = () => {
     //log out 
     const logOut = () => {
         dispatch(userLogoutAction());
-        window.location.reload(true);
-        setTimeout(() => {
-            navigate('/');
-        }, 500)
+        // window.location.reload(true);
+        navigate('../', { replace: true })
+        // setTimeout(() => {
+        //     navigate('/');
+        // }, 500)
     }
 
 
@@ -211,19 +213,27 @@ const SidebarAdm = () => {
 
                         >
                             {
-                                userInfo && userInfo.role === 1 ?
+                                userInfo && userInfo?.role === USER_ROLES.ADMIN ?
                                     <>
                                         <MenuItem component={<Link to="/admin/dashboard" />} icon={<DashboardIcon />}> Dashboard </MenuItem>
                                         <MenuItem component={<Link to="/admin/users" />} icon={<GroupAddIcon />}> Users </MenuItem>
                                         <MenuItem component={<Link to="/admin/jobs" />} icon={<WorkIcon />}> Jobs </MenuItem>
                                         <MenuItem component={<Link to="/admin/category" />} icon={<CategoryIcon />}> Category </MenuItem>
                                     </> :
+                                    userInfo && userInfo?.role === USER_ROLES.EMPLOYER ?
                                     <>
                                         <MenuItem component={<Link to="/user/dashboard" />} icon={<DashboardIcon />}> Dashboard </MenuItem>
                                         <MenuItem component={<Link to="/user/jobs" />} icon={<WorkHistoryIcon />}> Applied Jobs </MenuItem>
                                         <MenuItem component={<Link to="/user/jobsList" />} icon={<WorkIcon />}> Jobs List  </MenuItem>
                                         <MenuItem component={<Link to="/user/info" />} icon={<Person3Icon />}> Personal Info </MenuItem>
                                     </>
+                                    : userInfo && userInfo?.role === USER_ROLES.JOB_SEEKER ?
+                                    <>
+                                        <MenuItem component={<Link to="/user/dashboard" />} icon={<DashboardIcon />}> Dashboard </MenuItem>
+                                        <MenuItem component={<Link to="/job-seeker/jobs" />} icon={<WorkHistoryIcon />}> Applied Jobs </MenuItem>
+                                        <MenuItem component={<Link to="/job-seeker/job-requests" />} icon={<WorkHistoryIcon />}> Job Requests </MenuItem>
+                                        <MenuItem component={<Link to="/user/info" />} icon={<Person3Icon />}> Personal Info </MenuItem>
+                                    </> : null
                             }
 
                         </Menu>

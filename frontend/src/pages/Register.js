@@ -9,6 +9,7 @@ import * as yup from 'yup';
 import { useDispatch } from 'react-redux'
 import { userSignUpAction } from '../redux/actions/userAction'
 import { useState } from 'react';
+import { USER_ROLES } from '../helper/enums';
 
 
 const validationSchema = yup.object({
@@ -37,31 +38,15 @@ const validationSchema = yup.object({
         })
         .oneOf([yup.ref('password')], 'Passwords does not match'),
     socialsecuritynumber: yup
-        .string('Enter your social security number')
-        .required('Social Security Number is required'),
+        .string('Enter your social security number'),
     yearsOfExperience: yup
-        .string('Enter your year of experience ')
-        .required('Enter Your Years Number of Experience'),
-    workfields: yup
-        .string('Enter your workfield')
-        .required('workfield is required'),
+        .string('Enter your year of experience '),
     workfield: yup
-        .string('Enter your workfield')
-        .required('Workfield is required'),
-    gender: yup
-        .string('Enter Your Gender')
-        .required('Enter Your Gender'),
-    bio: yup
-        .string('Enter Your bio')
-        .required('Enter Your bio'),
-
+        .string('Enter your workfield'),
+    nameOfCorporation: yup
+        .string('Enter your workfield'),
 
 });
-
-const VIEW_OPTIONS = {
-    JOB_SEEKER: 1,
-    CORPORATE: 0
-}
 
 
 
@@ -69,34 +54,22 @@ const Register = () => {
     const [view, setView] = useState(null);
     const dispatch = useDispatch();
 
-
     const formik = useFormik({
         initialValues: {
             firstName: '',
             lastName: '',
             email: '',
             password: '',
-            gender: '',
-            address: '',
-            socialsecuritynumber: '',
-            workfield: '',
-            yearsOfExperience: '',
-            bio: '',
-            mobilenumber: '',
-            role: view === VIEW_OPTIONS.JOB_SEEKER
+            role: 0
         },
         validationSchema: validationSchema,
         onSubmit: (values, actions) => {
-            dispatch(userSignUpAction(values));
+            const data = {...values, role: Boolean(view)}
+            dispatch(userSignUpAction(data));
             actions.resetForm();
         }
 
     })
-
-
-
-
-
 
     return (
         <>
@@ -109,7 +82,7 @@ const Register = () => {
                         <Avatar sx={{ m: 1, bgcolor: "primary.main", mb: 3 }}>
                             <LockOpenIcon />
                         </Avatar>
-                        {view === VIEW_OPTIONS.JOB_SEEKER ? (
+                        {view === USER_ROLES.JOB_SEEKER ? (
                             <>
                                 <TextField
                                     sx={{
@@ -332,30 +305,6 @@ const Register = () => {
                                         fieldset: { borderColor: "rgb(231, 235, 240)" }
                                     }}
                                     fullWidth
-                                    id="gender"
-                                    name="gender"
-                                    label="Gender"
-                                    type='number'
-
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    placeholder="Gender"
-                                    value={formik.values.gender}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    error={formik.touched.gender && Boolean(formik.errors.gender)}
-                                    helperText={formik.touched.gender && formik.errors.gender}
-                                />
-                                <TextField
-                                    sx={{
-                                        mb: 3,
-                                        "& .MuiInputBase-root": {
-                                            color: 'text.secondary'
-                                        },
-                                        fieldset: { borderColor: "rgb(231, 235, 240)" }
-                                    }}
-                                    fullWidth
                                     id="bio"
                                     name="bio"
                                     label="Bio "
@@ -372,7 +321,7 @@ const Register = () => {
                                 />
                             </>
                         ) : null}
-                        {view === VIEW_OPTIONS.CORPORATE ? (
+                        {view === USER_ROLES.EMPLOYER ? (
                             <>
                                 <TextField
                                     sx={{
@@ -593,19 +542,19 @@ const Register = () => {
                                         fieldset: { borderColor: "rgb(231, 235, 240)" }
                                     }}
                                     fullWidth
-                                    id="bio"
-                                    name="bio"
+                                    id="bioc"
+                                    name="bioc"
                                     label="Bio of Corporate"
                                     type='textarea'
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
                                     placeholder="Bio of Corporate"
-                                    value={formik.values.bio}
+                                    value={formik.values.bioc}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    error={formik.touched.bio && Boolean(formik.errors.bio)}
-                                    helperText={formik.touched.bio && formik.errors.bio}
+                                    error={formik.touched.bioc && Boolean(formik.errors.bioc)}
+                                    helperText={formik.touched.bioc && formik.errors.bioc}
                                 />
                             </>
                         ) : null}
@@ -621,11 +570,11 @@ const Register = () => {
                             >
                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <FormControlLabel value="as a job seeker" control={<Radio />} onClick={() => {
-                                        setView(VIEW_OPTIONS.JOB_SEEKER);
+                                        setView(USER_ROLES.JOB_SEEKER);
                                     }}
                                         label="As a Job Seeker" />
                                     <FormControlLabel value="as a corporate" control={<Radio />} onClick={() => {
-                                        setView(VIEW_OPTIONS.CORPORATE);
+                                        setView(USER_ROLES.EMPLOYER);
                                     }} label="As a Corporate" />
                                 </div>
                             </RadioGroup>

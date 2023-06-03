@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux'
 import { jobTypeLoadAction } from '../../redux/actions/jobTypeAction';
 import { registerAjobAction } from '../../redux/actions/jobAction';
+import { useParams } from 'react-router-dom';
 
 
 const validationSchema = yup.object({
@@ -31,6 +32,7 @@ const validationSchema = yup.object({
 
 const DashCreateJob = () => {
     const dispatch = useDispatch();
+    const params = useParams();
 
     //job type
     useEffect(() => {
@@ -54,7 +56,6 @@ const DashCreateJob = () => {
             actions.resetForm();
         },
     });
-
 
 
     return (

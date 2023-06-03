@@ -10,6 +10,7 @@ import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux'
 import { userSignInAction } from '../redux/actions/userAction'
 import { useNavigate } from 'react-router-dom'
+import { USER_ROLES } from '../helper/enums'
 
 const validationSchema = yup.object({
     email: yup
@@ -31,10 +32,12 @@ const LogIn = () => {
     useEffect(() => {
 
         if (isAuthenticated) {
-            if (userInfo.role === 1) {
+            if (userInfo?.role === USER_ROLES.ADMIN) {
                 navigate('/admin/dashboard');
-            } else {
+            } else if (userInfo?.role === USER_ROLES.JOB_SEEKER) {
                 navigate('/user/dashboard');
+            } else {
+                navigate('/');
             }
         }
 

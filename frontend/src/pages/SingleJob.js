@@ -23,10 +23,10 @@ const SingleJob = () => {
 
     const applyForAJob = () => {
         dispatch(userApplyJobAction({
-            title: singleJob && singleJob.title,
-            description: singleJob && singleJob.description,
-            salary: singleJob && singleJob.salary,
-            location: singleJob && singleJob.location
+            title: singleJob?.title || 'TEST',
+            description: singleJob?.description || 'DESC',
+            salary: singleJob?.salary || 1200,
+            location: singleJob?.location || 'Amman',
         }))
     }
 
