@@ -9,6 +9,15 @@ const getWorkRequest = (id) => {
     return api.get(`/work-request/${id}`);
 }
 
+const createWorkRequest = (data) => {
+    /* to create a new work request by the employer (user should be employer)
+    * required data:
+    * - jop_seeker_id
+    * - description
+    * */
+    return api.post('/work-request', data);
+}
+
 const updateWorkRequest = (id, data) => {
     /* to update the work request by the employer (user should be employer)
     * required data:
@@ -35,5 +44,6 @@ export default {
     getWorkRequest,
     updateWorkRequest,
     deleteWorkRequest,
-    submitWorkRequest
+    submitWorkRequest,
+    createWorkRequest
 }
