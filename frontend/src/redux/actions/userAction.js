@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
 import {
     ALL_USER_LOAD_FAIL,
     ALL_USER_LOAD_REQUEST,
@@ -23,19 +23,30 @@ import {
     USER_UPDATE_REQUEST,
     USER_UPDATE_SUCCESS
 } from '../constants/userConstant';
-
+import Auth from "../../api/Auth";
 
 
 export const userSignInAction = (user) => async (dispatch) => {
-    dispatch({ type: USER_SIGNIN_REQUEST });
+    dispatch({type: USER_SIGNIN_REQUEST});
     try {
-        const { data } = await axios.post("/api/signin", user);
-        localStorage.setItem('userInfo', JSON.stringify(data));
-        dispatch({
-            type: USER_SIGNIN_SUCCESS,
-            payload: data
-        });
-        toast.success("Login Successfully!");
+        Auth.login(user).then((res) => {
+            const data = res.data;
+            console.log(data.success.user, data.success.token);
+            localStorage.setItem('userInfo', JSON.stringify(data.success.user));
+            localStorage.setItem('token', data.success.token);
+            dispatch({
+                type: USER_SIGNIN_SUCCESS,
+                payload: data
+            });
+            toast.success("Login Successfully!");
+        }).catch((error) => {
+                dispatch({
+                    type: USER_SIGNIN_FAIL,
+                    payload: error.response.data.error
+                });
+            }
+        )
+
     } catch (error) {
         dispatch({
             type: USER_SIGNIN_FAIL,
@@ -47,15 +58,38 @@ export const userSignInAction = (user) => async (dispatch) => {
 
 // user sign up action
 export const userSignUpAction = (user) => async (dispatch) => {
-    dispatch({ type: USER_SIGNUP_REQUEST });
+    dispatch({type: USER_SIGNUP_REQUEST});
     try {
-        const { data } = await axios.post("/api/signup", user);
+        if(user.role === "employee"){
+            var registerFunction = Auth.registerEmployer;
 
-        dispatch({
-            type: USER_SIGNUP_SUCCESS,
-            payload: data
-        });
-        toast.success("Register Successfully!");
+        }else{
+            var registerFunction = Auth.registerJobSeeker;
+        }
+        registerFunction(user).then((res) => {
+            const data = res.data;
+            console.log(data.success.user, data.success.token);
+            localStorage.setItem('userInfo', JSON.stringify(data.success.user));
+            localStorage.setItem('token', data.success.token);
+            dispatch({
+                type: USER_SIGNUP_SUCCESS,
+                payload: data
+            });
+            toast.success("Register Successfully!");
+            dispatch({
+                type: USER_SIGNUP_SUCCESS,
+                payload: data
+            });
+            toast.success("Register Successfully!");
+        }).catch((error) => {
+                dispatch({
+                    type: USER_SIGNUP_FAIL,
+                    payload: error.response.data.error
+                });
+            }
+        );
+
+
     } catch (error) {
         dispatch({
             type: USER_SIGNUP_FAIL,
@@ -67,9 +101,9 @@ export const userSignUpAction = (user) => async (dispatch) => {
 
 // user update action
 export const userUpdateAction = (user) => async (dispatch) => {
-    dispatch({ type: USER_UPDATE_REQUEST });
+    dispatch({type: USER_UPDATE_REQUEST});
     try {
-        const { data } = await axios.post("/api/update", user);
+        const {data} = await axios.post("/api/update", user);
 
         dispatch({
             type: USER_UPDATE_SUCCESS,
@@ -87,10 +121,10 @@ export const userUpdateAction = (user) => async (dispatch) => {
 
 //log out action
 export const userLogoutAction = () => async (dispatch) => {
-    dispatch({ type: USER_LOGOUT_REQUEST });
+    dispatch({type: USER_LOGOUT_REQUEST});
     try {
         localStorage.removeItem('userInfo');
-        const { data } = await axios.get("/api/logout");
+        const {data} = await axios.get("/api/logout");
         dispatch({
             type: USER_LOGOUT_SUCCESS,
             payload: data
@@ -108,9 +142,9 @@ export const userLogoutAction = () => async (dispatch) => {
 
 //user profile action
 export const userProfileAction = () => async (dispatch) => {
-    dispatch({ type: USER_LOAD_REQUEST });
+    dispatch({type: USER_LOAD_REQUEST});
     try {
-        const { data } = await axios.get("/api/me");
+        const {data} = await axios.get("/api/me");
         dispatch({
             type: USER_LOAD_SUCCESS,
             payload: data
@@ -127,9 +161,9 @@ export const userProfileAction = () => async (dispatch) => {
 
 //all user action
 export const allUserAction = () => async (dispatch) => {
-    dispatch({ type: ALL_USER_LOAD_REQUEST });
+    dispatch({type: ALL_USER_LOAD_REQUEST});
     try {
-        const { data } = await axios.get("/api/allusers");
+        const {data} = await axios.get("/api/allusers");
         dispatch({
             type: ALL_USER_LOAD_SUCCESS,
             payload: data
@@ -145,9 +179,9 @@ export const allUserAction = () => async (dispatch) => {
 
 //user job apply action
 export const userApplyJobAction = (job) => async (dispatch) => {
-    dispatch({ type: USER_APPLY_JOB_REQUEST });
+    dispatch({type: USER_APPLY_JOB_REQUEST});
     try {
-        const { data } = await axios.post("/api/user/jobhistory", job);
+        const {data} = await axios.post("/api/user/jobhistory", job);
         debugger
 
         dispatch({

@@ -27,7 +27,6 @@ const reducer = combineReducers({
     mode: modeReducer,
     registerJob: registerAjobReducer,
     createJobType: createJobTypeReducer
-
 });
 
 
