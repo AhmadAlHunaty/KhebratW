@@ -79,7 +79,42 @@ const userSchema = new mongoose.Schema({
 
     role: {
         type: String,
+        default: ''
+    },
+
+    jobType: {
+        type: String,
         default: 0
+    },
+
+    yearsOfExperience: {
+        type: Number,
+        default: 0
+    },
+
+    gender: {
+        type: Boolean,
+        default: false
+    },
+
+    rate: {
+        type: Number,
+        default: 0
+    },
+
+    feedback: {
+        type: [String],
+        default: ''
+    },
+
+    address: {
+        type: String,
+        default: ''
+    },
+
+    skills: {
+        type: String,
+        default: ''
     }
 
 }, { timestamps: true })

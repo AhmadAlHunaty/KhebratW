@@ -9,3 +9,8 @@ export const ROUTES = {
     JOB_SEEKER: 'job-seeker',
     ADMIN: 'admin',
 }
+
+export const GENDER = {
+    Male: 1,
+    Female: 0
+}

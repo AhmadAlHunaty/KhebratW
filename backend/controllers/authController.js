@@ -44,6 +44,8 @@ exports.signin = async (req, res, next) => {
             return next(new ErrorResponse("invalid credentials", 400));
         }
 
+        debugger
+
         sendTokenResponse(user, 200, res);
 
     } catch (error) {
@@ -53,6 +55,7 @@ exports.signin = async (req, res, next) => {
 
 const sendTokenResponse = async (user, codeStatus, res) => {
     const token = await user.getJwtToken();
+    console.log(user);
     res
         .status(codeStatus)
         .cookie('token', token, { maxAge: 60 * 60 * 1000, httpOnly: true })

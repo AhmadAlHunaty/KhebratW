@@ -1,4 +1,5 @@
 const Job = require('../models/jobModel');
+const User = require('../models/userModel');
 const JobType = require('../models/jobTypeModel');
 const ErrorResponse = require('../utils/errorResponse');
 
@@ -35,6 +36,19 @@ exports.singleJob = async (req, res, next) => {
         next(error);
     }
 }
+
+// //single job
+// exports.userList = async (req, res, next) => {
+//     try {
+//         const job = await User.findById(req.params.id);
+//         res.status(200).json({
+//             success: true,
+//             job
+//         })
+//     } catch (error) {
+//         next(error);
+//     }
+// }
 
 
 //update job by id.

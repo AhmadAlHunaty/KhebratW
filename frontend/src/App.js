@@ -83,7 +83,8 @@ const App = () => {
                             <Route path='/job-seeker/job-requests' element={<JobSeekerRoute>< JobSeekerJobsHistoryHOC /></JobSeekerRoute>} />
                             {/* <Route path='/job-seeker/jobsList/:location' element={<JobSeekerRoute><DashSearchHOC /></JobSeekerRoute>} /> */}
 
-                            <Route path='/user/dashboard' element={(userInfo?.role === USER_ROLES?.JOB_SEEKER || userInfo?.role === USER_ROLES?.EMPLOYER) ? < UserDashboardHOC /> : <Navigate to='/' />} />
+                            
+                            <Route path='/user/dashboard' element={(userInfo?.role === USER_ROLES?.JOB_SEEKER || userInfo?.role === USER_ROLES?.EMPLOYER) ? < UserDashboardHOC /> : <Navigate to='/'/>} />
                             <Route path='/user/jobs' element={<EmployerRoute>< UserJobsHistoryHOC /></EmployerRoute>} />
                             <Route path='/user/jobsList' element={<EmployerRoute>< DashSearchHOC /></EmployerRoute>} />
                             <Route path='/user/jobsList/:location' element={<EmployerRoute><DashSearchHOC /></EmployerRoute>} />

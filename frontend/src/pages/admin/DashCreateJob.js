@@ -133,30 +133,32 @@ const DashCreateJob = () => {
                             helperText={formik.touched.location && formik.errors.location}
                         />
 
-                        <TextField sx={{ mb: 3 }}
-                            fullWidth
-                            className="px-2 my-2"
-                            variant="outlined"
-                            name="jobType"
-                            id="jobType"
-                            select
-                            label="Category"
-                            value={formik.values.jobType}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            error={formik.touched.jobType && Boolean(formik.errors.jobType)}
-                            helperText={formik.touched.jobType && formik.errors.jobType}
-                        >
-                            <MenuItem key={""} value={""}>
+<TextField
+                  sx={{ mb: 3 }}
+                  fullWidth
+                  className="px-2 my-2"
+                  variant="outlined"
+                  name="jobType"
+                  id="jobType"
+                  select
+                  label="Category"
+                  value={formik.values.jobType}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.jobType && Boolean(formik.errors.jobType)
+                  }
+                  helperText={formik.touched.jobType && formik.errors.jobType}
+                >
+                  <MenuItem key={""} value={""}></MenuItem>
 
-                            </MenuItem>
-
-                            {jobType && jobType.map((cat) => (
-                                <MenuItem key={cat._id} value={cat._id}>
-                                    {cat.jobTypeName}
-                                </MenuItem>
-                            ))}
-                        </TextField>
+                  {
+                    jobType?.map((cat) => (
+                      <MenuItem key={cat._id} value={cat._id}>
+                        {cat.jobTypeName}
+                      </MenuItem>
+                    ))}
+                </TextField>
 
                         <Button fullWidth variant="contained" type='submit' >Create job</Button>
                     </Box>
