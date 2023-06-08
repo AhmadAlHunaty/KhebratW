@@ -119,6 +119,7 @@ const LogIn = () => {
                         />
 
                         <Button fullWidth variant="contained" type='submit' >Log In</Button>
+                        <Button fullWidth href="/reset-password" target='_blank' >Reset Your Password</Button>
                     </Box>
                 </Box>
             </Box>

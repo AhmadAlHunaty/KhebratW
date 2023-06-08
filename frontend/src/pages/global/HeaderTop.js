@@ -14,6 +14,7 @@ import { DarkMode, LightMode } from "@mui/icons-material";
 import { toggleActionTheme } from '../../redux/actions/themeAction';
 import { useTheme } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
+import SimpleDialogDemo from './SimpleDialogDemo';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -85,7 +86,8 @@ const HeaderTop = () => {
                     >
                         Khebrat APP
                     </Typography>
-
+                    <div style={{ display: 'flex' }}>
+                    <SimpleDialogDemo />
                     {/* toggle dark theme */}
                     <IconButton sx={{ mr: 4 }} onClick={() => dispatch(toggleActionTheme())}>
                         {palette.mode === "dark" ? (
@@ -94,6 +96,7 @@ const HeaderTop = () => {
                             <LightMode sx={{ color: "#ffffff", fontSize: "25px" }} />
                         )}
                     </IconButton>
+                    </div>
 
                     <Search>
                         <SearchIconWrapper>

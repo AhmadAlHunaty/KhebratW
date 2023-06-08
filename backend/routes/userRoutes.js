@@ -6,6 +6,11 @@ const { isAuthenticated, isAdmin } = require('../middleware/auth');
 
 //user routes
 
+const allowEdit = () => {
+    return true;
+}
+
+
 // /api/allusers
 router.get('/allusers', isAuthenticated, isAdmin, allUsers);
 // /api/user/id

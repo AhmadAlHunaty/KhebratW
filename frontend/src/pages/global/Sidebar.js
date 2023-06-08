@@ -221,19 +221,19 @@ const SidebarAdm = () => {
                                         <MenuItem component={<Link to="/admin/category" />} icon={<CategoryIcon />}> Category </MenuItem>
                                     </> :
                                     userInfo && userInfo?.role === USER_ROLES.EMPLOYER ?
-                                        <>
-                                            <MenuItem component={<Link to="/user/dashboard" />} icon={<DashboardIcon />}> Dashboard </MenuItem>
-                                            <MenuItem component={<Link to="/user/jobs" />} icon={<WorkHistoryIcon />}> User List </MenuItem>
-                                            {/* <MenuItem component={<Link to="/user/jobsList" />} icon={<WorkIcon />}> Jobs List  </MenuItem> */}
-                                            <MenuItem component={<Link to="/user/info" />} icon={<Person3Icon />}> Personal Info </MenuItem>
-                                        </>
-                                        : userInfo && userInfo?.role === USER_ROLES.JOB_SEEKER ?
-                                            <>
-                                                <MenuItem component={<Link to="/user/dashboard" />} icon={<DashboardIcon />}> Dashboard </MenuItem>
-                                                {/* <MenuItem component={<Link to="/job-seeker/jobs" />} icon={<WorkHistoryIcon />}> Applied Jobs </MenuItem> */}
-                                                <MenuItem component={<Link to="/job-seeker/job-requests" />} icon={<WorkHistoryIcon />}> Job Requests </MenuItem>
-                                                <MenuItem component={<Link to="/user/info" />} icon={<Person3Icon />}> Personal Info </MenuItem>
-                                            </> : null
+                                    <>
+                                        <MenuItem component={<Link to="/user/dashboard" />} icon={<DashboardIcon />}> Dashboard </MenuItem>
+                                        <MenuItem component={<Link to="/user/jobs" />} icon={<WorkHistoryIcon />}> User List </MenuItem>
+                                        {/* ??<MenuItem component={<Link to="/user/jobsList" />} icon={<WorkIcon />}> Jobs List  </MenuItem> */}
+                                        <MenuItem component={<Link to="/user/info" />} icon={<Person3Icon />}> Personal Info </MenuItem>
+                                    </>
+                                    : userInfo && userInfo?.role === USER_ROLES.JOB_SEEKER ?
+                                    <>
+                                        <MenuItem component={<Link to="/user/dashboard" />} icon={<DashboardIcon />}> Dashboard </MenuItem>
+                                        {/* <MenuItem component={<Link to="/job-seeker/jobs" />} icon={<WorkHistoryIcon />}> Applied Jobs </MenuItem> */}
+                                        <MenuItem component={<Link to="/job-seeker/job-requests" />} icon={<WorkHistoryIcon />}> Job Requests </MenuItem>
+                                        <MenuItem component={<Link to="/user/info" />} icon={<Person3Icon />}> Personal Info </MenuItem>
+                                    </> : null
                             }
 
                         </Menu>

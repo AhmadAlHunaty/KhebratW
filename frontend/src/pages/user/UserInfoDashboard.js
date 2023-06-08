@@ -26,47 +26,45 @@ import LockOpenIcon from "@mui/icons-material/LockOpen";
 import Button from "@mui/material/Button";
 import { userAction } from "./../../redux/actions/userAction";
 import { USER_ROLES } from "../../helper/enums";
+import axios from "axios";
 
 const UserInfoDashboard = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.userProfile);
+  // const { user } = useSelector((state) => state.userProfile);
   const { userInfo } = useSelector((state) => state.signIn);
-  console.log("user");
-  console.log(user);
+  const [loggingUser, setlogginUser] = React.useState(userInfo?.user || null);
 
-  const validationSchema = yup.object({
-    firstName: yup
-      .string("Enter your First Name")
-      .min(3, "First Name should be of minimum 3 characters length")
-      .required("First Name is required"),
-    lastName: yup
-      .string("Enter your Last Name")
-      .min(3, "Last Name should be of minimum 3 characters length")
-      .required("Last Name is required"),
-    workfield: yup.string("Enter your workfield"),
-    yearsOfExperience: yup.string("Enter your years of experience"),
-    bio: yup.string("Enter your bio"),
-    nameOfCorporation: yup.string("Enter your workfield"),
-  });
+  const handleChange = (e, key) => {
+    setlogginUser((prev) => {
+      return {
+        ...prev,
+        [key]: e?.target?.value
+      }
+    })
+  }
 
-  const initialValues = {
-    firstName: user?.firstName || "",
-    lastName: user?.lastName || "",
-    email: user?.email || "",
-    password: "",
-    confirmPassword: "",
-    yearsOfExperience: "",
-    bio: "",
-    // Add initial values for other fields
+
+  const updateUserDetails = async () => {
+    try {
+      // setIsUserListLoading(true);
+      const { data } = await axios.put(`/api/user/edit/${loggingUser?._id}`, {
+        ...loggingUser,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // setIsUserListLoading(false);
+    }
   };
 
-  const formik = useFormik({
-    initialValues: initialValues,
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      dispatch(userUpdateAction(values)); // Dispatch the action to update the user's profile
-    },
-  });
+  const deleteUserById = async () => {
+    const { data } = await axios.delete(`/api/admin/user/delete/${loggingUser?._id}`);
+
+    if (data?.success) {
+      window.open('/', '_self');
+    }
+  }
+
   return (
     <div
       style={{
@@ -77,73 +75,11 @@ const UserInfoDashboard = () => {
         borderRadius: "8px",
       }}
     >
-      <Typography variant="h6">Edit Profile</Typography>
+      <Typography marginBottom='20px' variant="h6">Edit Profile</Typography>
       <form
         style={{ display: "grid", gap: "1rem" }}
-        onSubmit={formik.handleSubmit}
+        onSubmit={updateUserDetails}
       >
-        <TextField
-          fullWidth
-          id="firstName"
-          name="firstName"
-          label="First Name"
-          value={formik.values.firstName}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-          helperText={formik.touched.firstName && formik.errors.firstName}
-        />
-
-        <TextField
-          fullWidth
-          id="lastName"
-          name="lastName"
-          label="Last Name"
-          value={formik.values.lastName}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-          helperText={formik.touched.lastName && formik.errors.lastName}
-        />
-
-        <TextField
-          fullWidth
-          id="bio"
-          name="bio"
-          label="Bio"
-          multiline
-          rows={4}
-          value={formik.values.bio}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.bio && Boolean(formik.errors.bio)}
-          helperText={formik.touched.bio && formik.errors.bio}
-        />
-
-        <TextField
-          sx={{
-            mb: 3,
-            "& .MuiInputBase-root": {
-              color: "text.secondary",
-            },
-            fieldset: { borderColor: "rgb(231, 235, 240)" },
-          }}
-          fullWidth
-          id="workfield"
-          name="workfield"
-          label="Work fields"
-          type="textarea"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          placeholder="Work field"
-          value={formik.values.workfield}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.workfield && Boolean(formik.errors.workfield)}
-          helperText={formik.touched.workfield && formik.errors.workfield}
-        />
-
         {userInfo?.role === USER_ROLES?.EMPLOYER ? (
           <TextField
             sx={{
@@ -161,19 +97,94 @@ const UserInfoDashboard = () => {
               shrink: true,
             }}
             placeholder="Name Of Corporation"
-            value={formik.values.nameOfCorporation}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={
-              formik.touched.nameOfCorporation &&
-              Boolean(formik.errors.nameOfCorporation)
-            }
-            helperText={
-              formik.touched.nameOfCorporation &&
-              formik.errors.nameOfCorporation
-            }
+            value={loggingUser?.nameOfCorporation}
+            onChange={(e) => {
+              handleChange(e, 'nameOfCorporation')
+            }}
           />
         ) : null}
+        <TextField
+          fullWidth
+          id="firstName"
+          name="firstName"
+          label="First Name"
+          value={loggingUser?.firstName}
+          onChange={(e) => {
+            handleChange(e, 'firstName')
+          }}
+        />
+
+        <TextField
+          fullWidth
+          id="lastName"
+          name="lastName"
+          label="Last Name"
+          value={loggingUser?.lastName}
+          onChange={(e) => {
+            handleChange(e, 'lastName')
+          }}
+        />
+
+        <TextField
+          fullWidth
+          id="bio"
+          name="bio"
+          label="Bio"
+          multiline
+          rows={4}
+          value={loggingUser?.bio}
+          onChange={(e) => {
+            handleChange(e, 'bio')
+          }}
+        />
+
+        {/* <TextField
+          sx={{
+            mb: 3,
+            "& .MuiInputBase-root": {
+              color: "text.secondary",
+            },
+            fieldset: { borderColor: "rgb(231, 235, 240)" },
+          }}
+          fullWidth
+          id="workfield"
+          name="workfield"
+          label="Work fields"
+          type="textarea"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          placeholder="Work field"
+          value={loggingUser?.workfield}
+          onChange={(e) => {
+            handleChange(e, 'workfield')
+          }}
+        /> */}
+        <TextField
+          sx={{
+            mb: 3,
+            "& .MuiInputBase-root": {
+              color: "text.secondary",
+            },
+            fieldset: { borderColor: "rgb(231, 235, 240)" },
+          }}
+          fullWidth
+          id="mobilenumber"
+          label="Mobile Number"
+          name="mobilenumber"
+          type="tel"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          placeholder="Mobile Number"
+          value={loggingUser?.mobileNumber}
+          onChange={(e) => {
+            handleChange(e, 'mobileNumber')
+          }}
+
+
+        />
+
 
         {userInfo?.role === USER_ROLES?.JOB_SEEKER ? (
           <TextField
@@ -181,25 +192,20 @@ const UserInfoDashboard = () => {
             id="yearsOfExperience"
             name="yearsOfExperience"
             label="Years of Experience"
-            value={formik.values.yearsOfExperience}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={
-              formik.touched.yearsOfExperience &&
-              Boolean(formik.errors.yearsOfExperience)
-            }
-            helperText={
-              formik.touched.yearsOfExperience &&
-              formik.errors.yearsOfExperience
-            }
+            value={loggingUser?.yearsOfExperience}
+            onChange={(e) => {
+              handleChange(e, 'yearsOfExperience')
+            }}
           />
-        ) : null}
-
-        {/* Add TextField components for other fields */}
-        {/* ... */}
-
+        ) : null
+        }
         <Button type="submit" variant="contained" color="primary">
           Save Changes
+        </Button>
+        <Button variant="contained" style={{ backgroundColor: '#FF0000' }} onClick={() => {
+          deleteUserById(loggingUser?.user?._id);
+        }}>
+          Delete My Account
         </Button>
       </form>
     </div>

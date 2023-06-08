@@ -203,9 +203,9 @@ const Navbar = () => {
                         >
 
 
-                            <MenuItem onClick={() => navigate('admin/dashboard')}>
+                            {/* <MenuItem onClick={() => navigate('admin/dashboard')}>
                                 <Typography textAlign="center"><Link style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont,Roboto, Oxygen, Ubuntu, Cantarell,sans-serif', textDecoration: "none", color: palette.secondary.main }}>Admin Dashboard</Link></Typography>
-                            </MenuItem>
+                            </MenuItem> */}
                             <MenuItem onClick={() => navigate('user/dashboard')}>
                                 <Typography textAlign="center"><Link style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont,Roboto, Oxygen, Ubuntu, Cantarell,sans-serif', textDecoration: "none", color: palette.secondary.main }}>User Dashboard</Link></Typography>
                             </MenuItem>

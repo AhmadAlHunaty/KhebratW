@@ -115,6 +115,16 @@ const userSchema = new mongoose.Schema({
     skills: {
         type: String,
         default: ''
+    },
+
+    nameOfCorporation: {
+        type: String,
+        default: ''
+    },
+
+    jobsRequests: {
+        type: [Object],
+        default: {}
     }
 
 }, { timestamps: true })

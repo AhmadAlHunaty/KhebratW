@@ -47,6 +47,9 @@ exports.singleUser = async (req, res, next) => {
 exports.editUser = async (req, res, next) => {
     try {
         const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        console.log('hussam test user');
+        console.log(user);
+
         res.status(200).json({
             success: true,
             user

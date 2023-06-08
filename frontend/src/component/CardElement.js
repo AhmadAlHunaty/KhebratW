@@ -10,8 +10,8 @@ import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import Rating from "@mui/material/Rating";
 import axios from "axios";
-import { ALL_USER_LOAD_SUCCESS } from "../redux/constants/userConstant";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { JOB_STATUS } from "../helper/enums";
 
 const CardElement = ({
   jobTitle,
@@ -25,6 +25,8 @@ const CardElement = ({
   const dispatch = useDispatch();
   const [rate, setRate] = React.useState(user?.rate || 0);
   const [feedback, setFeedback] = React.useState(user?.feedback || []);
+  const [isRequestSent, setIsRequested] = React.useState(null);
+  const { userInfo: loggingUser } = useSelector((state) => state.signIn);
 
   const updateUserDetails = async () => {
     try {
@@ -32,8 +34,36 @@ const CardElement = ({
       const { data } = await axios.put(`/api/user/edit/${id}`, {
         ...user,
         rate: rate,
-        feedback: [...user?.feedback, feedback],
+        feedback:
+          user?.feedback?.length > 0
+            ? [...user?.feedback, feedback]
+            : [feedback],
       });
+    } catch (error) {
+      console.log("test");
+    } finally {
+      // setIsUserListLoading(false);
+    }
+  };
+
+  const saveUserRequestJob = async () => {
+    try {
+      // setIsUserListLoading(true);
+      const requestJob = { user: loggingUser?.user, applicationStatus: JOB_STATUS.Pending };
+      // const JobSeekerId = loggingUser?.user?._id;
+
+      const updateJobRequests = user?.jobsRequests?.length > 0
+      ? [...user?.jobsRequests, requestJob]
+      : [requestJob];
+
+      const { data } = await axios.put(`/api/user/edit/${user?._id}`, {
+        ...user,
+        jobsRequests: updateJobRequests,
+      });
+
+      if (data?.success) {
+        setIsRequested(true);
+      }
     } catch (error) {
       console.log("test");
     } finally {
@@ -55,14 +85,16 @@ const CardElement = ({
           </IconButton>{" "}
           {location}
         </Typography>
-        <Typography variant="h5" component="div">
+        <Typography variant="h5" component="div" style={{ color: 'blue', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ borderRadius: '50%', backgroundImage: 'url(https://th.bing.com/th/id/R.359b5fa2df39f0e8e853c1b46394c4f4?rik=ZGASyMnZ9FCxCg&pid=ImgRaw&r=0)', backgroundSize: 'cover', width: 38, height: 38 }}> </div>
           {jobTitle}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
           {category}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {user?.gender ? 'Male' : 'Female'}
+          {user?.gender ? "Male" : "Female"} <br />
+          {`Years of Experience: ${user?.yearsOfExperience}`}
         </Typography>
         <Typography variant="body2">
           Skills: {description?.split(" ")?.slice(0, 15)?.join(" ") + "..."}
@@ -109,12 +141,22 @@ const CardElement = ({
             Save
           </Link>
         </Button>
-        <Button disableElevation variant="contained" startIcon={<AddIcon />}>
+        <Button
+          disableElevation
+          variant="contained"
+          startIcon={<AddIcon />}
+          style={{ backgroundColor: "#0000FF" }}
+          onClick={() => {
+            // if (!isRequestSent) {
+              saveUserRequestJob();
+            // }
+          }}
+        >
           <Link
             style={{ textDecoration: "none", color: "white", boxShadow: 0 }}
-            to={`/job/${id}`}
+            // to={`/job/${id}`}
           >
-            More Details
+            {isRequestSent ? "Sent" : "Request Job"}
           </Link>
         </Button>
       </CardActions>

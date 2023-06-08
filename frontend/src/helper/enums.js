@@ -14,3 +14,9 @@ export const GENDER = {
     Male: 1,
     Female: 0
 }
+
+export const JOB_STATUS = {
+    Pending: 0,
+    Approved: 1,
+    Reject: 2
+}

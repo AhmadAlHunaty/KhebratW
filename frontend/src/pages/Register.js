@@ -48,7 +48,7 @@ const validationSchema = yup.object({
   socialsecuritynumber: yup.string("Enter your social security number"),
   yearsOfExperience: yup.string("Enter your year of experience "),
   workfield: yup.string("Enter your workfield"),
-  nameOfCorporation: yup.string("Enter your workfield"),
+  nameOfCorporation: yup.string("Enter your Company name"),
 });
 
 const Register = () => {
@@ -64,6 +64,7 @@ const Register = () => {
       password: "",
       jobType: "",
       yearsOfExperience: 0,
+      nameOfCorporation: '',
       address: '',
       skills: '',
       role: '',
@@ -267,7 +268,7 @@ const Register = () => {
                     formik.errors.socialsecuritynumber
                   }
                 />
-                <TextField
+                {/* <TextField
                   sx={{
                     mb: 3,
                     "& .MuiInputBase-root": {
@@ -293,7 +294,7 @@ const Register = () => {
                   helperText={
                     formik.touched.workfield && formik.errors.workfield
                   }
-                />
+                /> */}
                 <TextField
                   sx={{
                     mb: 3,
@@ -309,7 +310,7 @@ const Register = () => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  placeholder="Years Of Experience"
+                  placeholder="Enter Skill's"
                   value={formik.values.skills}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -383,7 +384,7 @@ const Register = () => {
                   name="jobType"
                   id="jobType"
                   select
-                  label="Category"
+                  label="Work Field"
                   value={formik.values.jobType}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -414,6 +415,7 @@ const Register = () => {
                   name="bio"
                   label="Bio "
                   type="textarea"
+
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -658,7 +660,7 @@ const Register = () => {
                     formik.errors.passwordConfirmation
                   }
                 />
-                <TextField
+                {/* <TextField
                   sx={{
                     mb: 3,
                     "& .MuiInputBase-root": {
@@ -684,7 +686,7 @@ const Register = () => {
                   helperText={
                     formik.touched.workfield && formik.errors.workfield
                   }
-                />
+                /> */}
                 <TextField
                   sx={{
                     mb: 3,
@@ -717,7 +719,7 @@ const Register = () => {
                   name="jobType"
                   id="jobType"
                   select
-                  label="Category"
+                  label="Work Field"
                   value={formik.values.jobType}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
