@@ -14,6 +14,7 @@ const UserDashboard = () => {
 
     useEffect(() => {
         WorkRequest.getWorkRequests().then((res) => {
+            console.log(res)
             setUserWorkRequests(res.data);
         });
     }, []);

@@ -32,7 +32,7 @@ const CardElement = ({
 
         const updateUserDetails = async () => {
             Feedback.createFeedback({
-                jop_seeker_id: id,
+                job_seeker_id: id,
                 notes: feedback,
                 rating: rate,
             }).then((res) => {
