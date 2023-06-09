@@ -13,6 +13,7 @@ import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {JOB_STATUS} from "../helper/enums";
 import {useEffect} from "react";
+import WorkRequest from "../api/WorkRequest";
 
 const RequestCard = ({
                          jobTitle,
@@ -31,32 +32,13 @@ const RequestCard = ({
     const {userInfo: loggingUser} = useSelector((state) => state.signIn);
     const [status, setStatus] = React.useState();
 
-    const saveUserRequestJob = async (status) => {
-        try {
-            // setIsUserListLoading(true);
-            const update = {user: user, applicationStatus: status};
-
-            const updateJobRequests = loggingUser?.user?.jobsRequests?.map(item => {
-                if (item?.user?._id === update?.user?._id) {
-                    return update;
-                }
-
-                return item;
+    const saveUserRequestJob =  (status) => {
+        WorkRequest.submitWorkRequest(id, {
+            status: status
+        })
+            .then((res) => {
+                setStatus(getCorpRequestStatus(status));
             })
-
-            const {data} = await axios.put(`/api/user/edit/${loggingUser?.user?._id}`, {
-                ...loggingUser?.user,
-                jobsRequests: updateJobRequests,
-            });
-
-            // if (data?.success) {
-            //   setIsRequested(true);
-            // }
-        } catch (error) {
-            console.log("test");
-        } finally {
-            // setIsUserListLoading(false);
-        }
     };
 
     const getCorpRequestStatus = (statusId) => {
@@ -111,31 +93,27 @@ const RequestCard = ({
             </CardContent>
             {request?.status === JOB_STATUS.Pending ? <CardActions>
                 <Button disableElevation variant="contained" startIcon={<AddIcon/>} style={{backgroundColor: "#008000"}}
-                        onClick={saveUserRequestJob(JOB_STATUS.Approved)}
+                        onClick={() => saveUserRequestJob(JOB_STATUS.Approved, id)}
                 >
-                    <Link
+                    <Typography
                         style={{textDecoration: "none", color: "white", boxShadow: 0}}
                     >
-                        Approved
-                    </Link>
+                        Approve
+                    </Typography>
                 </Button>
                 <Button
                     disableElevation
                     variant="contained"
                     startIcon={<AddIcon/>}
                     style={{backgroundColor: "#FF0000"}}
-                    onClick={() => {
-                        // if (!isRequestSent) {
-                        saveUserRequestJob(JOB_STATUS.Reject);
-                        // }
-                    }}
+                    onClick={() => saveUserRequestJob(JOB_STATUS.Reject, id)}
                 >
-                    <Link
+                    <Typography
                         style={{textDecoration: "none", color: "white", boxShadow: 0}}
                         // to={`/job/${id}`}
                     >
                         Reject
-                    </Link>
+                    </Typography>
                 </Button>
             </CardActions> : null}
         </Card>

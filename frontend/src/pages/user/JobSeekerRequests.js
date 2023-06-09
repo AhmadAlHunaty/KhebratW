@@ -26,7 +26,6 @@ const JobSeekerRequests = () => {
                 <Box>
                     <div style={{display: "flex", flexWrap: "wrap", gap: 20}}>
                         {workRequests?.map((request, i) => {
-                            debugger
                             return <RequestCard
                                 key={request.id}
                                 id={request.id}
