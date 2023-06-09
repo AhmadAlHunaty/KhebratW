@@ -32,7 +32,7 @@ const JobSeekerRequests = () => {
                                 id={request.id}
                                 jobTitle={`${request?.employer?.first_name}`}
                                 description={request?.employer?.description}
-                                category={request.employer?.work_field.name}
+                                category={request.employer?.work_field?.name}
                                 location={request.employer?.country?.name}
                                 user={request?.employer}
                                 request={request}
