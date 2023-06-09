@@ -109,7 +109,7 @@ const RequestCard = ({
                     Status: {status}
                 </Typography>
             </CardContent>
-            {request?.applicationStatus === JOB_STATUS.Pending ? <CardActions>
+            {request?.status === JOB_STATUS.Pending ? <CardActions>
                 <Button disableElevation variant="contained" startIcon={<AddIcon/>} style={{backgroundColor: "#008000"}}
                         onClick={saveUserRequestJob(JOB_STATUS.Approved)}
                 >
