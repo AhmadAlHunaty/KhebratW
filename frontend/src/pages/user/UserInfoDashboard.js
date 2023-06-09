@@ -1,144 +1,100 @@
-import { useTheme } from "@mui/material";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import { useSelector } from "react-redux";
-import React, { useState } from "react";
-import {
-  Avatar,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-} from "@mui/material";
-import TextField from "@mui/material/TextField";
-import * as yup from "yup";
-import {
-  allUserAction,
-  userSignUpAction,
-  userUpdateAction,
-} from "../../redux/actions/userAction";
-import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
-import LockOpenIcon from "@mui/icons-material/LockOpen";
 
+import Typography from "@mui/material/Typography";
+import {useSelector} from "react-redux";
+import React, {useState} from "react";
+import TextField from "@mui/material/TextField";
+import {
+  userLogoutAction,
+    userUpdateAction,
+} from "../../redux/actions/userAction";
+import {useDispatch} from "react-redux";
 import Button from "@mui/material/Button";
-import { userAction } from "./../../redux/actions/userAction";
-import { USER_ROLES } from "../../helper/enums";
-import axios from "axios";
+import {USER_ROLES} from "../../helper/enums";
+import Auth from "../../api/Auth";
+import {useNavigate} from "react-router-dom";
 
 const UserInfoDashboard = () => {
-  const dispatch = useDispatch();
-  // const { user } = useSelector((state) => state.userProfile);
-  const { userInfo } = useSelector((state) => state.signIn);
-  const [loggingUser, setlogginUser] = React.useState(userInfo?.user || null);
+    const dispatch = useDispatch();
+    const user = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
+    const [loggingUser, setlogginUser] = React.useState(user || null);
+    const navigate = useNavigate();
 
-  const handleChange = (e, key) => {
-    setlogginUser((prev) => {
-      return {
-        ...prev,
-        [key]: e?.target?.value
-      }
-    })
-  }
-
-
-  const updateUserDetails = async () => {
-    try {
-      // setIsUserListLoading(true);
-      const { data } = await axios.put(`/api/user/edit/${loggingUser?._id}`, {
-        ...loggingUser,
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      // setIsUserListLoading(false);
+    const handleChange = (e, key) => {
+        setlogginUser((prev) => {
+            return {
+                ...prev,
+                [key]: e?.target?.value
+            }
+        })
     }
-  };
 
-  const deleteUserById = async () => {
-    const { data } = await axios.delete(`/api/admin/user/delete/${loggingUser?._id}`);
 
-    if (data?.success) {
-      window.open('/', '_self');
+    const updateUserDetails = async (e) => {
+        e.preventDefault();
+        dispatch(userUpdateAction(loggingUser))
+
+    };
+
+    const deleteUserById = async () => {
+        Auth.deleteAccount().then((res) => {
+            dispatch(userLogoutAction());
+            navigate('/login');
+        }).catch((error) => {
+            console.log(error);
+        });
     }
-  }
 
-  return (
-    <div
-      style={{
-        maxWidth: "400px",
-        margin: "0 auto",
-        padding: "1rem",
-        backgroundColor: "#f2f2f2",
-        borderRadius: "8px",
-      }}
-    >
-      <Typography marginBottom='20px' variant="h6">Edit Profile</Typography>
-      <form
-        style={{ display: "grid", gap: "1rem" }}
-        onSubmit={updateUserDetails}
-      >
-        {userInfo?.role === USER_ROLES?.EMPLOYER ? (
-          <TextField
-            sx={{
-              mb: 3,
-              "& .MuiInputBase-root": {
-                color: "text.secondary",
-              },
-              fieldset: { borderColor: "rgb(231, 235, 240)" },
+    return (
+        <div
+            style={{
+                maxWidth: "400px",
+                margin: "0 auto",
+                padding: "1rem",
+                backgroundColor: "#f2f2f2",
+                borderRadius: "8px",
             }}
-            fullWidth
-            id="nameOfCorporation"
-            label="Name Of Corporation"
-            name="nameOfCorporation"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            placeholder="Name Of Corporation"
-            value={loggingUser?.nameOfCorporation}
-            onChange={(e) => {
-              handleChange(e, 'nameOfCorporation')
-            }}
-          />
-        ) : null}
-        <TextField
-          fullWidth
-          id="firstName"
-          name="firstName"
-          label="First Name"
-          value={loggingUser?.firstName}
-          onChange={(e) => {
-            handleChange(e, 'firstName')
-          }}
-        />
+        >
+            <Typography marginBottom='20px' variant="h6">Edit Profile</Typography>
+            <form
+                style={{display: "grid", gap: "1rem"}}
+                onSubmit={updateUserDetails}
+            >
+                <TextField
+                    fullWidth
+                    id="first_name"
+                    name="first_name"
+                    label="First Name"
+                    value={loggingUser?.first_name}
+                    onChange={(e) => {
+                        handleChange(e, 'first_name')
+                    }}
+                />
 
-        <TextField
-          fullWidth
-          id="lastName"
-          name="lastName"
-          label="Last Name"
-          value={loggingUser?.lastName}
-          onChange={(e) => {
-            handleChange(e, 'lastName')
-          }}
-        />
+                <TextField
+                    fullWidth
+                    id="last_name"
+                    name="last_name"
+                    label="Last Name"
+                    value={loggingUser?.last_name}
+                    onChange={(e) => {
+                        handleChange(e, 'last_name')
+                    }}
+                />
 
-        <TextField
-          fullWidth
-          id="bio"
-          name="bio"
-          label="Bio"
-          multiline
-          rows={4}
-          value={loggingUser?.bio}
-          onChange={(e) => {
-            handleChange(e, 'bio')
-          }}
-        />
+                <TextField
+                    fullWidth
+                    id="description"
+                    name="description"
+                    label="Description"
+                    multiline
+                    rows={4}
+                    value={loggingUser?.description}
+                    onChange={(e) => {
+                        handleChange(e, 'description')
+                    }}
+                />
 
-        {/* <TextField
+                {/* <TextField
           sx={{
             mb: 3,
             "& .MuiInputBase-root": {
@@ -160,56 +116,56 @@ const UserInfoDashboard = () => {
             handleChange(e, 'workfield')
           }}
         /> */}
-        <TextField
-          sx={{
-            mb: 3,
-            "& .MuiInputBase-root": {
-              color: "text.secondary",
-            },
-            fieldset: { borderColor: "rgb(231, 235, 240)" },
-          }}
-          fullWidth
-          id="mobilenumber"
-          label="Mobile Number"
-          name="mobilenumber"
-          type="tel"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          placeholder="Mobile Number"
-          value={loggingUser?.mobileNumber}
-          onChange={(e) => {
-            handleChange(e, 'mobileNumber')
-          }}
+                <TextField
+                    sx={{
+                        mb: 3,
+                        "& .MuiInputBase-root": {
+                            color: "text.secondary",
+                        },
+                        fieldset: {borderColor: "rgb(231, 235, 240)"},
+                    }}
+                    fullWidth
+                    id="phone_number"
+                    label="Mobile Number"
+                    name="phone_number"
+                    type="tel"
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    placeholder="Mobile Number"
+                    value={loggingUser?.phone_number}
+                    onChange={(e) => {
+                        handleChange(e, 'phone_number')
+                    }}
 
 
-        />
+                />
 
 
-        {userInfo?.role === USER_ROLES?.JOB_SEEKER ? (
-          <TextField
-            fullWidth
-            id="yearsOfExperience"
-            name="yearsOfExperience"
-            label="Years of Experience"
-            value={loggingUser?.yearsOfExperience}
-            onChange={(e) => {
-              handleChange(e, 'yearsOfExperience')
-            }}
-          />
-        ) : null
-        }
-        <Button type="submit" variant="contained" color="primary">
-          Save Changes
-        </Button>
-        <Button variant="contained" style={{ backgroundColor: '#FF0000' }} onClick={() => {
-          deleteUserById(loggingUser?.user?._id);
-        }}>
-          Delete My Account
-        </Button>
-      </form>
-    </div>
-  );
+                {user?.role === USER_ROLES?.JOB_SEEKER ? (
+                    <TextField
+                        fullWidth
+                        id="years_of_experience"
+                        name="years_of_experience"
+                        label="Years of Experience"
+                        value={loggingUser?.years_of_experience}
+                        onChange={(e) => {
+                            handleChange(e, 'years_of_experience')
+                        }}
+                    />
+                ) : null
+                }
+                <Button type="submit" variant="contained" color="primary">
+                    Save Changes
+                </Button>
+                <Button variant="contained" style={{backgroundColor: '#FF0000'}} onClick={() => {
+                    deleteUserById(loggingUser?.user?._id);
+                }}>
+                    Delete My Account
+                </Button>
+            </form>
+        </div>
+    );
 };
 
 export default UserInfoDashboard;
