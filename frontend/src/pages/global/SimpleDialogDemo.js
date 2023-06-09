@@ -1,6 +1,5 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -11,43 +10,56 @@ import IconButton from '@mui/material/IconButton';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import PersonIcon from '@mui/icons-material/Person';
-import AddIcon from '@mui/icons-material/Add';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-import Typography from '@mui/material/Typography';
-import { blue } from '@mui/material/colors';
+import {blue} from '@mui/material/colors';
+import {useEffect} from "react";
+import Pusher from "pusher-js";
 
-const emails = ['username@gmail.com', 'user02@gmail.com'] ; // List of Notification
 
 function SimpleDialog(props) {
-  const { onClose, selectedValue, open } = props;
-  const [notification, setNotifications] = React.useState(emails || null);
+    const {onClose, selectedValue, open} = props;
+    const [notification, setNotifications] = React.useState([]);
+    const user = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
+    useEffect(() => {
+        const pusher = new Pusher('1d2155e8f9d2d65bf322', {
+            cluster: 'ap2',
+            encrypted: true,
+        });
 
-  const handleClose = () => {
-    onClose(selectedValue);
-  };
+        const channel = pusher.subscribe('requests.' + user?.id);
 
-  const handleListItemClick = (value) => {
-    onClose(value);
-  };
+        channel.bind('App\\Events\\NewWorkRequest', function (data) {
+            setNotifications([...notification, data.workRequest]);
+        });
+    }, []);
 
-  return (
-    <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Notifications</DialogTitle>
-      <List sx={{ pt: 0, minWidth: 400, minHeight: 400 }}>
-        {notification?.map((email) => (
-          <ListItem disableGutters>
-            <ListItemButton onClick={() => handleListItemClick(email)} key={email}>
-              <ListItemAvatar>
-                <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
-                  <PersonIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={email} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+    const handleClose = () => {
+        onClose(selectedValue);
+    };
 
-        {/* <ListItem disableGutters>
+    const handleListItemClick = (value) => {
+        onClose(value);
+    };
+
+    return (
+        <Dialog onClose={handleClose} open={open}>
+            <DialogTitle>Notifications</DialogTitle>
+            <List sx={{pt: 0, minWidth: 400, minHeight: 400}}>
+                {notification?.map((workRequest) => (
+                    <ListItem disableGutters>
+                        <ListItemButton onClick={() => handleListItemClick(workRequest)} key={workRequest}>
+                            <ListItemAvatar>
+                                <Avatar sx={{bgcolor: blue[100], color: blue[600]}}>
+                                    <PersonIcon/>
+                                </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText primary={workRequest.employer.first_name}/>
+                            <ListItemText primary={workRequest.description}/>
+                        </ListItemButton>
+                    </ListItem>
+                ))}
+
+                {/* <ListItem disableGutters>
           <ListItemButton
             autoFocus
             onClick={() => handleListItemClick('addAccount')}
@@ -60,40 +72,40 @@ function SimpleDialog(props) {
             <ListItemText primary="Add account" />
           </ListItemButton>
         </ListItem> */}
-      </List>
-    </Dialog>
-  );
+            </List>
+        </Dialog>
+    );
 }
 
 SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  selectedValue: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired,
+    open: PropTypes.bool.isRequired,
+    selectedValue: PropTypes.string.isRequired,
 };
 
 export default function SimpleDialogDemo() {
-  const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState(emails[1]);
+    const [open, setOpen] = React.useState(false);
+    const [selectedValue, setSelectedValue] = React.useState(``);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
-  const handleClose = (value) => {
-    setOpen(false);
-    setSelectedValue(value);
-  };
+    const handleClose = (value) => {
+        setOpen(false);
+        setSelectedValue(value);
+    };
 
-  return (
-    <div>
-      <IconButton sx={{ mr: 4 }} onClick={handleClickOpen}>
-        <NotificationsActiveIcon  sx={{ color: "#ffffff", fontSize: "25px", cursor:'pointer' }} />
-      </IconButton>
-      <SimpleDialog
-        selectedValue={selectedValue}
-        open={open}
-        onClose={handleClose}
-      />
-    </div>
-  );
+    return (
+        <div>
+            <IconButton sx={{mr: 4}} onClick={handleClickOpen}>
+                <NotificationsActiveIcon sx={{color: "#ffffff", fontSize: "25px", cursor: 'pointer'}}/>
+            </IconButton>
+            <SimpleDialog
+                selectedValue={selectedValue}
+                open={open}
+                onClose={handleClose}
+            />
+        </div>
+    );
 }

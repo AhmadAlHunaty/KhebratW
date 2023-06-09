@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import SimpleDialogDemo from './SimpleDialogDemo';
 
 
+
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -61,9 +62,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const HeaderTop = () => {
 
+    const user = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
     const { collapseSidebar } = useProSidebar();
     const { palette } = useTheme();
     const dispatch = useDispatch();
+
+
+
 
     return (
         <Box sx={{ flexGrow: 1 }}>

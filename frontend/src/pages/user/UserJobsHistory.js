@@ -34,12 +34,6 @@ const UserJobsHistory = () => {
                 gender = 'male';
             }
         }
-        console.log({
-            'search': search,
-            'gender':gender,
-            'years_of_experience':yearsOfExperience,
-            'rating':rateSort
-    })
         JopSeeker.getJopSeekers({
             'search': search,
             'gender':gender,
