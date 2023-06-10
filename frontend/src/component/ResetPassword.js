@@ -10,9 +10,9 @@ const ResetPassword = () => {
         Auth.forgotPassword({
             'email': email
         }).then((res) => {
-           console.log(res)
+            toast.success('Password reset link has been sent to your email address')
         }).catch((error) => {
-            console.log(error)
+            toast.error('Something went wrong')
         })
     }
 
