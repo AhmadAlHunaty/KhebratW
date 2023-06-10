@@ -20,3 +20,9 @@ export const JOB_STATUS = {
     Approved: 1,
     Reject: 0
 }
+
+export const WORK_REQUEST_STATUS = {
+    null: 'Pending',
+    1: 'Approved',
+    0: 'Reject'
+}

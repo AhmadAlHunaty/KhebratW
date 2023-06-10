@@ -12,9 +12,9 @@ const registerJobSeeker = (data) => {
     return api.post('/auth/job-seeker/register', data);
 }
 
-const forgotPassword = (data) => {
+const forgotPassword = (email) => {
     /* required data: email */
-    return api.post('/auth/forgot-password', data);
+    return api.post('/auth/forgot-password', email);
 }
 
 const resetPassword = (data) => {

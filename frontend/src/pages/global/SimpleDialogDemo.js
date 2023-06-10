@@ -14,11 +14,13 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import {blue} from '@mui/material/colors';
 import {useEffect} from "react";
 import Pusher from "pusher-js";
+import {JOB_STATUS, USER_ROLES, WORK_REQUEST_STATUS} from "../../helper/enums";
 
 
 function SimpleDialog(props) {
     const {onClose, selectedValue, open} = props;
-    const [notification, setNotifications] = React.useState([]);
+    const [employerNotification, setEmployerNotification] = React.useState([]);
+    const[jobSeekerNotification, setJobSeekerNotification] = React.useState([]);
     const user = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
     useEffect(() => {
         const pusher = new Pusher('1d2155e8f9d2d65bf322', {
@@ -29,7 +31,11 @@ function SimpleDialog(props) {
         const channel = pusher.subscribe('requests.' + user?.id);
 
         channel.bind('App\\Events\\NewWorkRequest', function (data) {
-            setNotifications([...notification, data.workRequest]);
+            setJobSeekerNotification([...jobSeekerNotification, data.workRequest]);
+        });
+        channel.bind('App\\Events\\WorkRequestSubmit', function (data) {
+            setEmployerNotification([...employerNotification, data.workRequest]);
+
         });
     }, []);
 
@@ -45,7 +51,22 @@ function SimpleDialog(props) {
         <Dialog onClose={handleClose} open={open}>
             <DialogTitle>Notifications</DialogTitle>
             <List sx={{pt: 0, minWidth: 400, minHeight: 400}}>
-                {notification?.map((workRequest) => (
+                {user.role === USER_ROLES.EMPLOYER ?
+                    (
+                    employerNotification?.map((workRequest) => (
+                    <ListItem disableGutters>
+                        <ListItemButton onClick={() => handleListItemClick(workRequest)} key={workRequest}>
+                            <ListItemAvatar>
+                                <Avatar sx={{bgcolor: blue[100], color: blue[600]}}>
+                                    <PersonIcon/>
+                                </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText primary={workRequest.jop_seeker?.first_name}/>
+                            <ListItemText primary={WORK_REQUEST_STATUS[workRequest.status]}/>
+                        </ListItemButton>
+                    </ListItem>
+                ))):(
+                jobSeekerNotification?.map((workRequest) => (
                     <ListItem disableGutters>
                         <ListItemButton onClick={() => handleListItemClick(workRequest)} key={workRequest}>
                             <ListItemAvatar>
@@ -57,7 +78,8 @@ function SimpleDialog(props) {
                             <ListItemText primary={workRequest.description}/>
                         </ListItemButton>
                     </ListItem>
-                ))}
+                )))
+                }
 
                 {/* <ListItem disableGutters>
           <ListItemButton

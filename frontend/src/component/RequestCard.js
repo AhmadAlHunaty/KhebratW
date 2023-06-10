@@ -38,6 +38,7 @@ const RequestCard = ({
         })
             .then((res) => {
                 setStatus(getCorpRequestStatus(status));
+                window.location.reload();
             })
     };
 

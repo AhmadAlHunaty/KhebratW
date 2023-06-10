@@ -1,11 +1,19 @@
 import React, { useState } from 'react'
 import './style.css'
+import Auth from "../api/Auth";
+import {toast} from "react-toastify";
 
 const ResetPassword = () => {
     const [email, setEmail] = useState(null);
 
     const handleReset = () => {
-        return;
+        Auth.forgotPassword({
+            'email': email
+        }).then((res) => {
+           console.log(res)
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 
   return (

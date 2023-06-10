@@ -7,7 +7,9 @@
     <list default="true" id="7efd3e0c-fc8e-4ffd-96fe-120763336303" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/component/RequestCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/component/RequestCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/user/JobSeekerRequests.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/user/JobSeekerRequests.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/component/ResetPassword.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/component/ResetPassword.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/helper/enums.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/helper/enums.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/global/SimpleDialogDemo.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/global/SimpleDialogDemo.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +68,8 @@
       <workItem from="1686255646346" duration="1379000" />
       <workItem from="1686314830357" duration="330000" />
       <workItem from="1686318557753" duration="1525000" />
-      <workItem from="1686337896660" duration="1721000" />
+      <workItem from="1686337896660" duration="2903000" />
+      <workItem from="1686391739700" duration="1315000" />
     </task>
     <servers />
   </component>
