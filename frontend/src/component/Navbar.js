@@ -61,7 +61,8 @@ const Navbar = () => {
 
 
     return (
-        <AppBar position="static" sx={{ bgcolor: palette.primary.main }}>
+        <AppBar position="fixed" sx={{marginBottom:'50px', bgcolor: "#385978", boxShadow: "0px 4px 8px -2px rgba(0,0,0,0.4), 0px 6px 20px 0px rgba(0,0,0,0.3), 0px 10px 26px 0px rgba(0,0,0,0.2)" }}>
+
             <Container >
                 {/* principal Menu */}
                 <Toolbar disableGutters>
@@ -162,13 +163,7 @@ const Navbar = () => {
 
 
                     </Box>
-                    <IconButton sx={{ mr: 4 }} onClick={() => dispatch(toggleActionTheme())}>
-                        {palette.mode === "dark" ? (
-                            <DarkMode sx={{ color: "#ffffff", fontSize: "25px" }} />
-                        ) : (
-                            <LightMode sx={{ color: "#ffffff", fontSize: "25px" }} />
-                        )}
-                    </IconButton>
+                    
 
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">

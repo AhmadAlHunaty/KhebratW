@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import SimpleDialogDemo from './SimpleDialogDemo';
 
 
+
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -61,9 +62,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const HeaderTop = () => {
 
+    const user = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
     const { collapseSidebar } = useProSidebar();
     const { palette } = useTheme();
     const dispatch = useDispatch();
+
+
+
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -84,18 +89,18 @@ const HeaderTop = () => {
                         component="div"
                         sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                     >
-                        Khebrat APP
+                        Khebrat
                     </Typography>
                     <div style={{ display: 'flex' }}>
-                    <SimpleDialogDemo />
-                    {/* toggle dark theme */}
-                    <IconButton sx={{ mr: 4 }} onClick={() => dispatch(toggleActionTheme())}>
-                        {palette.mode === "dark" ? (
-                            <DarkMode sx={{ color: "#ffffff", fontSize: "25px" }} />
-                        ) : (
-                            <LightMode sx={{ color: "#ffffff", fontSize: "25px" }} />
-                        )}
-                    </IconButton>
+                        <SimpleDialogDemo />
+                        {/* toggle dark theme */}
+                        <IconButton sx={{ mr: 4 }} onClick={() => dispatch(toggleActionTheme())}>
+                            {palette.mode === "dark" ? (
+                                <DarkMode sx={{ color: "#ffffff", fontSize: "25px" }} />
+                            ) : (
+                                <LightMode sx={{ color: "#ffffff", fontSize: "25px" }} />
+                            )}
+                        </IconButton>
                     </div>
 
                     <Search>

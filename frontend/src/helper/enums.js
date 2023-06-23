@@ -11,12 +11,18 @@ export const ROUTES = {
 }
 
 export const GENDER = {
-    Male: 1,
-    Female: 0
+    Male: 'male',
+    Female: 'female',
 }
 
 export const JOB_STATUS = {
-    Pending: 0,
+    Pending: null,
     Approved: 1,
-    Reject: 2
+    Reject: 0
+}
+
+export const WORK_REQUEST_STATUS = {
+    null: 'Pending',
+    1: 'Approved',
+    0: 'Reject'
 }

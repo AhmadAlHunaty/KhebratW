@@ -19,7 +19,7 @@ const validationSchema = yup.object({
         .required('Email is required'),
     password: yup
         .string('Enter your password')
-        .min(8, 'Password should be of minimum 8 characters length')
+        .min(3, 'Password should be of minimum 8 characters length')
         .required('Password is required'),
 });
 
@@ -32,13 +32,16 @@ const LogIn = () => {
     useEffect(() => {
 
         if (isAuthenticated) {
-            if (userInfo?.role === USER_ROLES.ADMIN) {
-                navigate('/admin/dashboard');
-            } else if (userInfo?.role === USER_ROLES.JOB_SEEKER) {
+            // if (userInfo?.role === USER_ROLES.ADMIN) {
+            //     navigate('/admin/dashboard');
+            // } else if (userInfo?.role === USER_ROLES.JOB_SEEKER) {
+            //     navigate('/user/dashboard');
+            // } else {
+            //     navigate('/');
+            // }
+            setTimeout(() => {
                 navigate('/user/dashboard');
-            } else {
-                navigate('/');
-            }
+            }, [500])
         }
 
         // if (isAuthenticated) {

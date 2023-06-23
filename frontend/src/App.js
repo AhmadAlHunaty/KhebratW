@@ -33,6 +33,7 @@ import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
 import { USER_ROLES } from './helper/enums';
 import ResetPassword from './component/ResetPassword';
+import ChangePassword from './component/ChangePassowrd';
 
 //HOC
 const UserDashboardHOC = Layout(UserDashboard);
@@ -69,6 +70,7 @@ const App = () => {
                             {/* <Route path='/job-seeker/jobList/:keyword' element={<EmployerRoute><DashSearchHOC /></EmployerRoute>} /> */}
                             <Route path='/login' element={<LogIn />} />
                             <Route path='/reset-password' element={<ResetPassword />} />
+                            <Route path='/change-password' element={<ChangePassword />} />
                             <Route path='/register' element={<Register />} />
                             <Route path='/job/:id' element={<SingleJob />} />
                             <Route path='/admin/dashboard' element={<AdminRoute><AdminDashboardHOC /></AdminRoute>} />

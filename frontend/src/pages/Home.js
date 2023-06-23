@@ -12,6 +12,9 @@ import SelectComponent from '../component/SelectComponent'
 import { jobTypeLoadAction } from '../redux/actions/jobTypeAction'
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import './Home.css';
+import newImage from '../images/Khebrat Home Page Image1.jpg'; // Path to your image file
+
+
 
 
 
@@ -39,20 +42,14 @@ const Home = () => {
 
     return (
         <>
-            <Box sx={{ bgcolor: "#fafafa", minHeight: "100vh" }}>
+            <Box sx={{ bgcolor: "#f7f7f7", minHeight: "100vh" }}>
 
                 <Navbar />
                 <Header />
-                <div className='Middel-contanier' style={{ backgroundColor: '#8696FE', height: '500px' }}>
-                    <div className='p-middle' style={{ width: '50%', float: 'left' }}>
-                        <img className='img-home' src={require('./../images/fotor_2023-5-27_20_47_23.png')} />
-
-                    </div>
-                    <div className='p-middle' style={{ width: '50%', float: 'right', marginTop: '6%' }}>
-                        <div className='' style={{ width: '100%' }} ><h1> Welcome To Khebrat App</h1></div>
-                        <div className='' style={{ width: '100%' }}>
-                            <p> Khebrat website is a national developmental project that aims to form a link between retirees looking for work (as part time or full-time consultants) and companies or businesses which looking for experienced persons, whether as consultants or employees for limited or unlimited periods.</p>
-                        </div>
+                <div className='Middel-contanier' style={{ backgroundColor: '#f7f7f7', height: '500px' }}>
+                    <div className='p-middle' style={{padding:'30px',display:'flex',alignItems:'center'}}>
+                        <div className='' style={{ color:'#385978',fontSize:'30px',textAlign:'left' ,marginTop:'40px',marginLeft:'270px',marginBottom:'1px'}} ><h1> What is <br/>KHEBRAT</h1></div>
+                            <p style={{fontSize:'30px',lineHeight:'40px',marginTop: '90px', marginLeft: '100px',marginBottom: 'px'}}> Khebrat website is a national developmental project <br/>that aims to form a link between retirees looking <br/> for work (as part time or full-time consultants) <br/>and companies or businesses which looking <br/>for experienced persons, whether as consultants <br/> or employees for limited or unlimited periods.</p>
                     </div>
 
 
@@ -60,6 +57,9 @@ const Home = () => {
 
 
                 </div>
+                <div className='newimage' style={{ backgroundColor: '#f7f7f7', height: '500px' }}>
+                <img src={newImage} alt="New Image" />
+                    </div>
 
 
 

@@ -1,15 +1,4 @@
-.img-home {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    justify-items: center;
 
-    margin-left: 20%;
-    padding-top: 10%;
-    width: 50%;
-    padding-bottom: 3%;
-
-}
 
 .Middel-contanier {
 
@@ -37,3 +26,15 @@
 
 
 }
+.newimage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+  }
+  
+  .newimage img {
+    width: 1520px;
+    height: 500px;
+    background: fixed;
+  }

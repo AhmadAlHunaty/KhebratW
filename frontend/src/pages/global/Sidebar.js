@@ -25,36 +25,36 @@ import axios from 'axios';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-
+import Auth from "../../api/Auth";
 
 
 const SidebarAdm = () => {
-    const { userInfo } = useSelector(state => state.signIn);
-    const defaultAvatar = 'https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000';
+    const user = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
+
+    const defaultAvatar = user.image ? 'http://localhost:8000/storage/images/' + user.image.path : 'https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000';
     const [image, setImage] = useState('');
     const { palette } = useTheme();
     const { collapsed } = useProSidebar();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { user } = useSelector(state => state.userProfile);
 
 
     useEffect(() => {
         dispatch(userProfileAction());
     }, []);
 
-    // const handleImageChange = (event) => {
-    //     const file = event.target.files[0];
-    //     const reader = new FileReader();
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
 
-    //     reader.onload = () => {
-    //         setImage(reader.result);
-    //     };
+        reader.onload = () => {
+            setImage(reader.result);
+        };
 
-    //     if (file) {
-    //         reader.readAsDataURL(file);
-    //     }
-    // }
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [avatarSrc, setAvatarSrc] = useState(defaultAvatar);
@@ -64,26 +64,21 @@ const SidebarAdm = () => {
         setAvatarSrc(URL.createObjectURL(event.target.files[0]));
     };
 
-    const handleFileUpload = () => {
+    const handleImageEdit = (e) => {
+        e.preventDefault();
         const formData = new FormData();
-        formData.append('file', selectedFile);
+        formData.append('image', selectedFile);
+        Auth.editProfilePicture(formData).then((res) => {
+            localStorage.setItem('userInfo', JSON.stringify(res.data.user));
+            e.target.reset();
+        }).catch((error) => {
+            console.log(error);
+        });
 
-        axios.post('http://example.com/upload', formData)
-            .then((response) => {
-                // Handle successful upload
-                console.log('File uploaded successfully!');
-                // Update user profile with the image URL (make an API call here)
-            })
-            .catch((error) => {
-                // Handle upload error
-                console.error('Error uploading file:', error);
-            });
     }
 
 
-
-
-    //log out 
+    //log out
     const logOut = () => {
         dispatch(userLogoutAction());
         // window.location.reload(true);
@@ -94,17 +89,16 @@ const SidebarAdm = () => {
     }
 
 
-
-
-
-
-
-
-
     return (
         <>
             <Sidebar backgroundColor="#003366" style={{ borderRightStyle: "none" }}>
-                <Box sx={{ display: "flex", justifyContent: "space-between", flexDirection: "column", height: "100%", position: 'relative' }}>
+                <Box sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    flexDirection: "column",
+                    height: "100%",
+                    position: 'relative'
+                }}>
                     <Box>
                         <Box sx={{
                             width: '100%', display: 'flex',
@@ -118,9 +112,19 @@ const SidebarAdm = () => {
                             {/* {
                                 collapsed ?
                                     <Avatar alt="logo dashboard" src={logoDashboard} /> : */}
-                            <Box sx={{ display: "flex", justifyContent: "center", position: 'relative' }}>
+                            <Box component={"form"}
+                                sx={{ display: "flex", justifyContent: "center", position: 'relative' }}
+                                // component={"form"}
+                                onSubmit={handleImageEdit}
+                            >
 
-                                <div style={{ display: 'flex', width: '100%', height: '400px', flexDirection: 'column', overflow: 'auto', }}>
+                                <div style={{
+                                    display: 'flex',
+                                    width: '100%',
+                                    height: '400px',
+                                    flexDirection: 'column',
+                                    overflow: 'auto',
+                                }}>
 
                                     <img src={avatarSrc} alt="Profile Picture" style={{
                                         borderRadius: '50%',
@@ -134,49 +138,64 @@ const SidebarAdm = () => {
 
                                     }} />
 
-                                    <div style={{ width: '100%', textalign: 'left', color: 'white', marginTop: '10px' }}></div>
+                                    <div style={{
+                                        width: '100%',
+                                        textalign: 'left',
+                                        color: 'white',
+                                        marginTop: '10px'
+                                    }}></div>
 
-                                    <Input className="profile-picture" type="file" onChange={handleFileChange} style={{
+                                    <Input className="profile-picture" type="file"
+                                        name={"image"}
+                                        onChange={handleFileChange} style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            flexDirection: 'column',
+                                            border: 'none',
+                                            cursor: 'pointer',
+                                            fontSize: '16px',
+                                            marginTop: '70px',
+                                            width: '100%', /* Adjust the width as needed */
+                                            height: '200px',/* Maintain the aspect ratio of the image */
+                                            borderRadius: '50%', /* Make the image round */
+                                        }}
+                                    />
+                                    <button style={{
                                         display: 'flex',
                                         alignItems: 'center',
                                         flexDirection: 'column',
-                                        border: 'none',
-                                        cursor: 'pointer',
-                                        fontSize: '16px',
-                                        marginTop: '70px',
-                                        width: '100%', /* Adjust the width as needed */
-                                        height: '200px',/* Maintain the aspect ratio of the image */
-                                        borderRadius: '50%', /* Make the image round */
-
-
-
-                                    }} />
-                                    <button style={{
-                                        display: 'flex', alignItems: 'center', flexDirection: 'column', backgroundColor: '#003366',
+                                        backgroundColor: '#003366',
                                         color: 'white',
                                         padding: '10px 20px',
                                         border: 'none',
                                         borderRadius: '4px',
                                         cursor: 'pointer',
                                         fontSize: '16px',
-                                    }} onClick={handleFileUpload}>Save</button>
+                                    }} type={"submit"}>Save
+                                    </button>
 
                                 </div>
                             </Box>
                             {/* } */}
 
-                            <Box sx={{ maxWidth: "100%", margin: "auto", pt: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                            <Box sx={{
+                                maxWidth: "100%",
+                                margin: "auto",
+                                pt: 2,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'flex-start'
+                            }}>
                                 <Card sx={{ minWidth: 100, bgcolor: palette.secondary.midNightBlue }}>
                                     <CardContent>
 
 
-                                        <Typography variant="h7" component="div" sx={{ color: "#fafafa" }} >
-                                            {user && user.firstName} {user && user.lastName}
-                                            {user && user.workfield}
-                                            {user && user.number}
-
+                                        <Typography
+                                            variant="h7" component="div" sx={{ color: "#fafafa" }}>
+                                            {user && user.first_name} {user && user.last_name}
+                                            {user && user.workfield?.name}
+                                            {user && user.phone_number}
                                         </Typography>
-
 
 
                                     </CardContent>
@@ -213,27 +232,37 @@ const SidebarAdm = () => {
 
                         >
                             {
-                                userInfo && userInfo?.role === USER_ROLES.ADMIN ?
+                                user && user?.role === USER_ROLES.ADMIN ?
                                     <>
-                                        <MenuItem component={<Link to="/admin/dashboard" />} icon={<DashboardIcon />}> Dashboard </MenuItem>
-                                        <MenuItem component={<Link to="/admin/users" />} icon={<GroupAddIcon />}> Users </MenuItem>
-                                        <MenuItem component={<Link to="/admin/jobs" />} icon={<WorkIcon />}> Jobs </MenuItem>
-                                        <MenuItem component={<Link to="/admin/category" />} icon={<CategoryIcon />}> Category </MenuItem>
+                                        <MenuItem component={<Link to="/admin/dashboard" />}
+                                            icon={<DashboardIcon />}> Dashboard </MenuItem>
+                                        <MenuItem component={<Link to="/admin/users" />}
+                                            icon={<GroupAddIcon />}> Users </MenuItem>
+                                        <MenuItem component={<Link to="/admin/jobs" />}
+                                            icon={<WorkIcon />}> Jobs </MenuItem>
+                                        <MenuItem component={<Link to="/admin/category" />}
+                                            icon={<CategoryIcon />}> Category </MenuItem>
                                     </> :
-                                    userInfo && userInfo?.role === USER_ROLES.EMPLOYER ?
-                                    <>
-                                        <MenuItem component={<Link to="/user/dashboard" />} icon={<DashboardIcon />}> Dashboard </MenuItem>
-                                        <MenuItem component={<Link to="/user/jobs" />} icon={<WorkHistoryIcon />}> User List </MenuItem>
-                                        {/* ??<MenuItem component={<Link to="/user/jobsList" />} icon={<WorkIcon />}> Jobs List  </MenuItem> */}
-                                        <MenuItem component={<Link to="/user/info" />} icon={<Person3Icon />}> Personal Info </MenuItem>
-                                    </>
-                                    : userInfo && userInfo?.role === USER_ROLES.JOB_SEEKER ?
-                                    <>
-                                        <MenuItem component={<Link to="/user/dashboard" />} icon={<DashboardIcon />}> Dashboard </MenuItem>
-                                        {/* <MenuItem component={<Link to="/job-seeker/jobs" />} icon={<WorkHistoryIcon />}> Applied Jobs </MenuItem> */}
-                                        <MenuItem component={<Link to="/job-seeker/job-requests" />} icon={<WorkHistoryIcon />}> Job Requests </MenuItem>
-                                        <MenuItem component={<Link to="/user/info" />} icon={<Person3Icon />}> Personal Info </MenuItem>
-                                    </> : null
+                                    user && user?.role === USER_ROLES.EMPLOYER ?
+                                        <>
+                                            <MenuItem component={<Link to="/user/dashboard" />}
+                                                icon={<DashboardIcon />}> Dashboard </MenuItem>
+                                            <MenuItem component={<Link to="/user/jobs" />}
+                                                icon={<WorkHistoryIcon />}> User List </MenuItem>
+                                            {/* ??<MenuItem component={<Link to="/user/jobsList" />} icon={<WorkIcon />}> Jobs List  </MenuItem> */}
+                                            <MenuItem component={<Link to="/user/info" />}
+                                                icon={<Person3Icon />}> Personal Info </MenuItem>
+                                        </>
+                                        : user && user?.role === USER_ROLES.JOB_SEEKER ?
+                                            <>
+                                                <MenuItem component={<Link to="/user/dashboard" />}
+                                                    icon={<DashboardIcon />}> Dashboard </MenuItem>
+                                                {/* <MenuItem component={<Link to="/job-seeker/jobs" />} icon={<WorkHistoryIcon />}> Applied Jobs </MenuItem> */}
+                                                <MenuItem component={<Link to="/job-seeker/job-requests" />}
+                                                    icon={<WorkHistoryIcon />}> Work Requests </MenuItem>
+                                                <MenuItem component={<Link to="/user/info" />}
+                                                    icon={<Person3Icon />}> Personal Info </MenuItem>
+                                            </> : null
                             }
 
                         </Menu>
@@ -262,11 +291,11 @@ const SidebarAdm = () => {
                                 },
                             }}
                         >
-                            <MenuItem onClick={logOut} icon={<LoginIcon />}>   Log out </MenuItem>
+                            <MenuItem onClick={logOut} icon={<LoginIcon />}> Log out </MenuItem>
                         </Menu>
                     </Box>
                 </Box>
-            </Sidebar >
+            </Sidebar>
         </>
     )
 }
