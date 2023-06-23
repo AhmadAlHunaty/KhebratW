@@ -68,7 +68,6 @@ const SidebarAdm = () => {
         e.preventDefault();
         const formData = new FormData();
         formData.append('image', selectedFile);
-
         Auth.editProfilePicture(formData).then((res) => {
             localStorage.setItem('userInfo', JSON.stringify(res.data.user));
             e.target.reset();

@@ -31,6 +31,7 @@ export const userSignInAction = (user) => async (dispatch) => {
     try {
         Auth.login(user).then((res) => {
 
+            console.log(res)
             const data = res.data;
             console.log(data.success.user, data.success.token);
             localStorage.setItem('userInfo', JSON.stringify(data.success.user));
@@ -41,6 +42,7 @@ export const userSignInAction = (user) => async (dispatch) => {
             });
             toast.success("Login Successfully!");
         }).catch((error) => {
+            console.log(error)
                 dispatch({
                     type: USER_SIGNIN_FAIL,
                     payload: error.response.data.error

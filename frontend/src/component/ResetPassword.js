@@ -11,7 +11,9 @@ const ResetPassword = () => {
             'email': email
         }).then((res) => {
             toast.success('Password reset link has been sent to your email address')
+            console.log(res)
         }).catch((error) => {
+          console.log(error)
             toast.error('Something went wrong')
         })
     }
