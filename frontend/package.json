@@ -14,7 +14,11 @@
     "axios": "^1.1.3",
     "formik": "^2.2.9",
     "moment": "^2.29.4",
+<<<<<<< HEAD
     "pusher-js": "^8.2.0",
+=======
+    "pusher-js": "^8.0.2",
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-google-charts": "^4.0.0",

@@ -12,13 +12,21 @@ import Navbar from "../component/Navbar";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useFormik } from "formik";
+import {useFormik} from "formik";
 import * as yup from "yup";
+<<<<<<< HEAD
 import { useDispatch, useSelector } from "react-redux";
 import { userSignUpAction } from "../redux/actions/userAction";
 import { useEffect, useState } from "react";
 import { GENDER, USER_ROLES } from "../helper/enums";
 import { jobTypeLoadAction } from "../redux/actions/jobTypeAction";
+=======
+import {useDispatch, useSelector} from "react-redux";
+import {userSignUpAction} from "../redux/actions/userAction";
+import {useEffect, useState} from "react";
+import {GENDER, USER_ROLES} from "../helper/enums";
+import {jobTypeLoadAction} from "../redux/actions/jobTypeAction";
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
 import Country from "../api/Country";
 import Select from "@mui/material/Select";
 import WorkField from "../api/WorkField";
@@ -89,7 +97,11 @@ const Register = () => {
         },
         validationSchema: validationSchema,
         onSubmit: (values, actions) => {
+<<<<<<< HEAD
             const data = { ...values, role: view, gender: gender };
+=======
+            const data = {...values, role: view, gender: gender};
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
             dispatch(userSignUpAction(data));
             actions.resetForm();
         },
@@ -98,7 +110,11 @@ const Register = () => {
 
     return (
         <>
+<<<<<<< HEAD
             <Navbar />
+=======
+            <Navbar/>
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
             <Box
                 sx={{
                     height: "81vh",
@@ -121,8 +137,13 @@ const Register = () => {
                             width: "100%",
                         }}
                     >
+<<<<<<< HEAD
                         <Avatar sx={{ m: 1, bgcolor: "primary.main", mb: 3 }}>
                             <LockOpenIcon />
+=======
+                        <Avatar sx={{m: 1, bgcolor: "primary.main", mb: 3}}>
+                            <LockOpenIcon/>
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
                         </Avatar>
                         <TextField
                             sx={{
@@ -130,7 +151,11 @@ const Register = () => {
                                 "& .MuiInputBase-root": {
                                     color: "text.secondary",
                                 },
+<<<<<<< HEAD
                                 fieldset: { borderColor: "rgb(231, 235, 240)" },
+=======
+                                fieldset: {borderColor: "rgb(231, 235, 240)"},
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
                             }}
                             fullWidth
                             id="first_name"
@@ -157,7 +182,11 @@ const Register = () => {
                                 "& .MuiInputBase-root": {
                                     color: "text.secondary",
                                 },
+<<<<<<< HEAD
                                 fieldset: { borderColor: "rgb(231, 235, 240)" },
+=======
+                                fieldset: {borderColor: "rgb(231, 235, 240)"},
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
                             }}
                             fullWidth
                             id="last_name"
@@ -182,7 +211,11 @@ const Register = () => {
                                 "& .MuiInputBase-root": {
                                     color: "text.secondary",
                                 },
+<<<<<<< HEAD
                                 fieldset: { borderColor: "rgb(231, 235, 240)" },
+=======
+                                fieldset: {borderColor: "rgb(231, 235, 240)"},
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
                             }}
                             fullWidth
                             id="email"
@@ -205,7 +238,11 @@ const Register = () => {
                                 "& .MuiInputBase-root": {
                                     color: "text.secondary",
                                 },
+<<<<<<< HEAD
                                 fieldset: { borderColor: "rgb(231, 235, 240)" },
+=======
+                                fieldset: {borderColor: "rgb(231, 235, 240)"},
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
                             }}
                             fullWidth
                             id="password"
@@ -230,7 +267,11 @@ const Register = () => {
                                 "& .MuiInputBase-root": {
                                     color: "text.secondary",
                                 },
+<<<<<<< HEAD
                                 fieldset: { borderColor: "rgb(231, 235, 240)" },
+=======
+                                fieldset: {borderColor: "rgb(231, 235, 240)"},
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
                             }}
                             fullWidth
                             id="password_confirmation"
@@ -259,7 +300,11 @@ const Register = () => {
                                 "& .MuiInputBase-root": {
                                     color: "text.secondary",
                                 },
+<<<<<<< HEAD
                                 fieldset: { borderColor: "rgb(231, 235, 240)" },
+=======
+                                fieldset: {borderColor: "rgb(231, 235, 240)"},
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
                             }}
                             fullWidth
                             id="phone_number"
@@ -290,7 +335,11 @@ const Register = () => {
                                             "& .MuiInputBase-root": {
                                                 color: 'text.secondary'
                                             },
+<<<<<<< HEAD
                                             fieldset: { borderColor: "rgb(231, 235, 240)" }
+=======
+                                            fieldset: {borderColor: "rgb(231, 235, 240)"}
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
                                         }}
                                         fullWidth
                                         id="country_id"
@@ -315,7 +364,11 @@ const Register = () => {
                                             "& .MuiInputBase-root": {
                                                 color: 'text.secondary'
                                             },
+<<<<<<< HEAD
                                             fieldset: { borderColor: "rgb(231, 235, 240)" }
+=======
+                                            fieldset: {borderColor: "rgb(231, 235, 240)"}
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
                                         }}
                                         fullWidth
                                         id="work_field_id"
@@ -344,7 +397,11 @@ const Register = () => {
                                 "& .MuiInputBase-root": {
                                     color: "text.secondary",
                                 },
+<<<<<<< HEAD
                                 fieldset: { borderColor: "rgb(231, 235, 240)" },
+=======
+                                fieldset: {borderColor: "rgb(231, 235, 240)"},
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
                             }}
                             fullWidth
                             id="description"
@@ -371,7 +428,11 @@ const Register = () => {
                                         "& .MuiInputBase-root": {
                                             color: "text.secondary",
                                         },
+<<<<<<< HEAD
                                         fieldset: { borderColor: "rgb(231, 235, 240)" },
+=======
+                                        fieldset: {borderColor: "rgb(231, 235, 240)"},
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
                                     }}
                                     fullWidth
                                     id="social_security_number"
@@ -428,7 +489,11 @@ const Register = () => {
                                         "& .MuiInputBase-root": {
                                             color: "text.secondary",
                                         },
+<<<<<<< HEAD
                                         fieldset: { borderColor: "rgb(231, 235, 240)" },
+=======
+                                        fieldset: {borderColor: "rgb(231, 235, 240)"},
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
                                     }}
                                     fullWidth
                                     id="years_of_experience"
@@ -462,7 +527,11 @@ const Register = () => {
                                         marginBottom: 12,
                                     }}
                                 >
+<<<<<<< HEAD
                                     <div style={{ paddingInlineEnd: 8 }}>
+=======
+                                    <div style={{paddingInlineEnd: 8}}>
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
                                         <FormLabel id="demo-radio-buttons-group-label">
                                             Type :
                                         </FormLabel>
@@ -481,7 +550,11 @@ const Register = () => {
                                         >
                                             <FormControlLabel
                                                 value="Female"
+<<<<<<< HEAD
                                                 control={<Radio />}
+=======
+                                                control={<Radio/>}
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
                                                 onClick={() => {
                                                     setGender(GENDER.Female);
                                                 }}
@@ -489,7 +562,11 @@ const Register = () => {
                                             />
                                             <FormControlLabel
                                                 value="Male"
+<<<<<<< HEAD
                                                 control={<Radio />}
+=======
+                                                control={<Radio/>}
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
                                                 onClick={() => {
                                                     setGender(GENDER.Male);
                                                 }}
@@ -511,7 +588,11 @@ const Register = () => {
                                 marginBottom: 12,
                             }}
                         >
+<<<<<<< HEAD
                             <div style={{ paddingInlineEnd: 8 }}>
+=======
+                            <div style={{paddingInlineEnd: 8}}>
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
                                 <FormLabel id="demo-radio-buttons-group-label">
                                     Type :
                                 </FormLabel>
@@ -530,20 +611,36 @@ const Register = () => {
                                 >
                                     <FormControlLabel
                                         value="as a job seeker"
+<<<<<<< HEAD
                                         control={<Radio />}
                                         onClick={() => {
                                             setView(USER_ROLES.JOB_SEEKER);
                                         }}
                                         label="As Job Seeker"
+=======
+                                        control={<Radio/>}
+                                        onClick={() => {
+                                            setView(USER_ROLES.JOB_SEEKER);
+                                        }}
+                                        label="As a Job Seeker"
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
                                     />
                                     <FormControlLabel
                                         value="as a corporate"
                                         checked={view === USER_ROLES.EMPLOYER}
+<<<<<<< HEAD
                                         control={<Radio />}
                                         onClick={() => {
                                             setView(USER_ROLES.EMPLOYER);
                                         }}
                                         label="As Corporate"
+=======
+                                        control={<Radio/>}
+                                        onClick={() => {
+                                            setView(USER_ROLES.EMPLOYER);
+                                        }}
+                                        label="As a Corporate"
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
                                     />
                                 </div>
                             </RadioGroup>
@@ -555,7 +652,11 @@ const Register = () => {
                     </Box>
                 </Box>
             </Box>
+<<<<<<< HEAD
             <Footer />
+=======
+            <Footer/>
+>>>>>>> e7b8251cfddfa53a08f2ea3e32fef504f3368d67
         </>
     );
 };
